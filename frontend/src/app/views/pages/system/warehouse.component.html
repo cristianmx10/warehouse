@@ -1,0 +1,69 @@
+<div class="card card-outline card-primary" *ngIf="!create && !update">
+    <div class="card-header">
+        <h3 class="card-title">Detalles del almacen</h3>
+        <div class="card-tools">
+            <button class="btn btn-primary" (click)="newWarehouse()"><span class="fas fa-plus"></span> Agregar almacen</button>
+        </div>
+    </div>
+    <div class="card-body p-0 table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Local</th>
+                    <th>Estado</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ware of warehouses; let i = index;">
+                    <td>{{ i + 1}}</td>
+                    <td>{{ware.name}}</td>
+                    <td>{{ware.description}}</td>
+                    <td>{{ware.local.name}}</td>
+                    <td>
+                        <span class="badge bg-success" *ngIf="ware.active">Activo</span>
+                        <span class="badge bg-danger" *ngIf="!ware.active">No activo</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-success btn-sm" (click)="editWarehose(ware)"><span
+                                class="fas fa-edit"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card card-primary card-outline" *ngIf="create || update">
+    <div class="card-header">
+        <h3 class="card-title">Detalles de almacen</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label>Nombre del almacen</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="warehouse.name">
+        </div>
+        <div class="form-group">
+            <label>Descripcion</label>
+            <input type="text" class="form-control" name="description" [(ngModel)]="warehouse.description">
+        </div>
+        <div class="form-group">
+            <label>Local</label>
+            <select class="form-control" name="local" [(ngModel)]="warehouse.local._id">
+                <option value="" disabled>Seleccione</option>
+                <option *ngFor="let loc of locals" [value]="loc._id"> {{loc.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <button type="submit" class="btn btn-danger" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success float-right" *ngIf="create"
+            (click)="createWarehouse()">Crear</button>
+        <button type="submit" class="btn btn-success float-right" *ngIf="update"
+            (click)="updateWarehouse()">Actualizar</button>
+    </div>
+</div>

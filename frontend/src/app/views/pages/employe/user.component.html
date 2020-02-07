@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-md-3" *ngFor="let user of logins">
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <h3 class="profile-username text-center">{{user.username}}</h3>
+
+                <p class="text-muted text-center">{{user.employe.name}} {{user.employe.surname}}</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>Activo</b> <a class="float-right">
+                            <span class="badge badge-pill badge-success" *ngIf="user.active">Activo</span>
+                            <span class="badge badge-pill badge-danger" *ngIf="!user.active">No activo</span>
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Rol</b> <a class="float-right">{{user.employe.rol.nameRol}}</a>
+                    </li>
+                </ul>
+
+                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+            </div>
+        </div>
+    </div>
+</div>

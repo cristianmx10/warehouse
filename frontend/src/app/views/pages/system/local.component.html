@@ -1,0 +1,64 @@
+<div class="card card-outline card-primary" *ngIf="!create && !update">
+    <div class="card-header">
+        <h3 class="card-title">Detalles del local</h3>
+        <div class="card-tools">
+            <button class="btn btn-primary" (click)="newLocal()"><span class="fas fa-plus"></span> Agregar local</button>
+        </div>
+    </div>
+    <div class="card-body p-0 table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Ubicacion</th>
+                    <th>Estado</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let loc of locals; let i = index;">
+                    <td>{{i + 1}}</td>
+                    <td>{{loc.name}}</td>
+                    <td>{{loc.description}}</td>
+                    <td>{{loc.location}}</td>
+                    <td>
+                        <span class="badge bg-success" *ngIf="loc.active">Activo</span>
+                        <span class="badge bg-danger" *ngIf="!loc.active">No activo</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-success btn-sm" (click)="editLocal(loc)"><span
+                                class="fas fa-edit"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card card-primary card-outline" *ngIf="create || update">
+    <div class="card-header">
+        <h3 class="card-title">Detalles de local</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Nombre del local</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="local.name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Descripcion</label>
+            <input type="text" class="form-control" name="description" [(ngModel)]="local.description">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Ubicacion</label>
+            <input type="text" class="form-control" name="location" [(ngModel)]="local.location">
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-danger" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success float-right" (click)="createLocal()" *ngIf="create">Crear</button>
+        <button type="submit" class="btn btn-success float-right" (click)="updateLocalById()"
+            *ngIf="update">Actualizar</button>
+    </div>
+</div>

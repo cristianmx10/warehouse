@@ -1,0 +1,110 @@
+<div class="card card-outline card-primary" *ngIf="!create && !update">
+    <div class="card-header">
+        <h3 class="card-title">Detalles de empleados</h3>
+        <div class="card-tools">
+            <button class="btn btn-primary" (click)="newLocal()"><span class="fas fa-plus"></span> Agregar
+                empleado</button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="row">
+            <div class="col-md-3 mx-2 my-2" *ngFor="let empl of employes">
+                <div class="card card-outline card-info">
+                    <div class="card-header text-muted border-bottom-0">
+                        {{empl.name}}
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <h2 class="lead"><b>{{empl.surname}}</b></h2>
+                                <p class="text-muted text-sm"><b>Rol: </b> {{empl.rol.nameRol}}</p>
+                                <ul class="mb-0 fa-ul text-muted">
+                                    <li class="small"><span class="fa-li"><i
+                                                class="fas fa-lg fa-address-card"></i></span>
+                                        DNI: {{empl.dni}}</li>
+                                    <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
+                                        Celular #:
+                                        {{empl.phone}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <button class="btn btn-sm bg-primary" *ngIf="!empl.account" (click)="showModal(empl)"><span
+                                    class="fas fa-user-plus"></span></button>
+                            <button class="btn btn-sm bg-teal ml-1" (click)="editEmploye(empl)"><span
+                                    class="fas fa-edit"></span></button>
+                            <button class="btn btn-sm btn-danger ml-1"><span class="fas fa-trash"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card card-outline card-primary" *ngIf="create || update">
+    <div class="card-header">
+        <h3 class="card-title">Detalles del empleado</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Nombre</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="employe.name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Apellidos</label>
+            <input type="text" class="form-control" name="surname" [(ngModel)]="employe.surname">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">DNI</label>
+            <input type="text" class="form-control" name="dni" [(ngModel)]="employe.dni">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Telefono</label>
+            <input type="text" class="form-control" name="phone" [(ngModel)]="employe.phone">
+        </div>
+        <div class="form-group">
+            <label>Rol</label>
+            <select class="form-control" name="rol" [(ngModel)]="employe.rol._id">
+                <option value="" disabled>Seleccione</option>
+                <option *ngFor="let rol of roles" [value]="rol._id">{{rol.nameRol}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-danger" (click)="cancel()">Cancelar</button>
+        <button type="submit" class="btn btn-success float-right" *ngIf="create"
+            (click)="createEmploye()">Crear</button>
+        <button type="submit" class="btn btn-success float-right" *ngIf="update"
+            (click)="updateEmploye()">Actualizar</button>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLogin" aria-modal="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Crear login | {{login.employe?.name}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre de usuario</label>
+                    <input type="text" class="form-control" name="username" [(ngModel)]="login.username">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Contraseña</label>
+                    <input type="password" class="form-control" name="password" [(ngModel)]="login.password">
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="createNewLogin()">Crear</button>
+            </div>
+        </div>
+    </div>
+</div>
