@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Detalles de categoria</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form #formCategory="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Nombre <i class="text-danger">*</i></label>
+                                <input type="text" class="form-control" required name="name"
+                                    [(ngModel)]="category.name">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Descripcion</label>
+                                <input type="text" class="form-control" name="description"
+                                    [(ngModel)]="category.description">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-danger"><span class="fas fa-times"></span> Cancelar</button>
+                <button type="button" class="btn btn-primary float-right" [disabled]="formCategory.invalid"
+                    (click)="createCAtegory()"><span class="fas fa-save"></span> Guardar</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card card-outline card-success">
+            <div class="card-header">
+                <h3 class="card-title"> CAtegorias</h3>
+            </div>
+            <div class="card-body p-0 table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>Estado</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cat of categories; let i = index;">
+                            <td>{{i + 1}}</td>
+                            <td>{{cat.name}}</td>
+                            <td>{{cat.description}}</td>
+                            <td>
+                                <span class="badge bg-success" *ngIf="cat.active">Activo</span>
+                                <span class="badge bg-danger" *ngIf="!cat.active">No activo</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline-success btn-sm"><span
+                                        class="fas fa-edit"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -12,6 +12,7 @@ import { LocalComponent } from './system/local.component';
 import { EmployeComponent } from './employe/employe.component';
 import { RolComponent } from './employe/rol.component';
 import { UserComponent } from './employe/user.component';
+import { CategoryComponent } from './warehouse/category.component';
 @NgModule({
     declarations: [
         PagesComponent,
@@ -20,7 +21,8 @@ import { UserComponent } from './employe/user.component';
         LocalComponent,
         EmployeComponent,
         RolComponent,
-        UserComponent],
+        UserComponent,
+        CategoryComponent],
     exports: [
         PagesComponent
     ],

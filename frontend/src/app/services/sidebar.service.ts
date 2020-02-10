@@ -18,7 +18,7 @@ export class SidebarService {
         },
         {
           title: 'Categorias',
-          url: '/dashboard',
+          url: '/category',
           icon: 'nav-icon fas fa-file-invoice'
         },
         {
