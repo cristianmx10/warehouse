@@ -39,10 +39,12 @@ app.put('/:id', mdAuth.verificationToken, (req, res) => {
 
 // LISTAR PRODUCTOS
 app.get('/', mdAuth.verificationToken, (req, res) => {
-    Product.find({}, (err, productsDB) => {
-        if (err) return res.status(400).json(err);
-        res.status(200).json(productsDB);
-    });
+    Product.find({})
+        .populate('category')
+        .exec((err, productsDB) => {
+            if (err) return res.status(400).json(err);
+            res.status(200).json(productsDB);
+        });
 });
 
 module.exports = app;

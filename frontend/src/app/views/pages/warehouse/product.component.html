@@ -4,7 +4,7 @@
             <div class="card-header">
                 <h3 class="card-title">Detalles del producto</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                     </button>
                 </div>
             </div>
@@ -47,8 +47,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Categoria</label>
-                                <select class="form-control" name="category" [(ngModel)]="product.category._id">
+                                <label>Categoria <i class="text-danger">*</i></label>
+                                <select class="form-control" name="category" [(ngModel)]="product.category._id"
+                                    required>
                                     <option value="" disabled>Seleccione...</option>
                                     <option *ngFor="let cat of categories" [value]="cat._id">{{cat.name}}</option>
                                 </select>
@@ -61,15 +62,16 @@
                 <button type="submit" class="btn btn-info" (click)="clearProduct()" *ngIf="!update"><span
                         class="fas fa-broom"></span>
                     Limpiar</button>
-                <button class="btn btn-danger" *ngIf="update" (click)="btnCancel()"><span class="fas fa-times"></span> Cancelar</button>
+                <button class="btn btn-danger" *ngIf="update" (click)="btnCancel()"><span class="fas fa-times"></span>
+                    Cancelar</button>
                 <button type="submit" class="btn btn-success float-right" (click)="showModal()"
                     [disabled]="myForm.invalid" *ngIf="!update"><span class="fas fa-plus"></span>
                     Agregar producto a almacen</button>
                 <button type="submit" class="btn btn-primary float-right mr-1" (click)="createProduct()"
                     [disabled]="myForm.invalid" *ngIf="!update"><span class="fas fa-plus"></span>
                     Solo agregar producto</button>
-                <button class="btn btn-primary float-right" *ngIf="update" [disabled]="myForm.invalid"><span
-                        class="fas fa-check"></span>
+                <button class="btn btn-primary float-right" *ngIf="update" [disabled]="myForm.invalid"
+                    (click)="updateProduct()"><span class="fas fa-check"></span>
                     Actualizar</button>
             </div>
         </div>
@@ -98,8 +100,8 @@
                             <td>{{i + 1}}</td>
                             <td>{{prod.productCode}}</td>
                             <td>{{prod.name}}</td>
-                            <td>{{prod.pricePurchase}}</td>
-                            <td>{{prod.priceSale}}</td>
+                            <td>{{prod.pricePurchase | currency: 'S/.'}}</td>
+                            <td>{{prod.priceSale | currency: 'S/.'}}</td>
                             <td>{{prod.category?.name || 'No category'}}</td>
                             <td>
                                 <span class="badge bg-success" *ngIf="prod.active">Activo</span>
@@ -113,23 +115,54 @@
                     </tbody>
                 </table>
             </div>
+            <div class="overlay" *ngIf="!endLoandingProducts"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
         </div>
     </div>
 </div>
 <div class="modal fade" id="modalWare" aria-modal="true">
     <div class="modal-dialog">
-        <div class="modal-content bg-info">
+        <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Info Modal</h4>
+                <h4 class="modal-title">Agregar producto a almacen</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body">
-                <p>One fine body…</p>
+                <form #prodWareForm="ngForm">
+                    <blockquote>
+                        <dl class="row">
+                            <dt class="col-sm-4">Producto</dt>
+                            <dd class="col-sm-8">{{productWarehouse.product?.name || ''}}</dd>
+                            <dt class="col-sm-4">Codigo</dt>
+                            <dd class="col-sm-8">{{productWarehouse.product?.productCode || ''}}</dd>
+                        </dl>
+                    </blockquote>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Almacen <i class="text-danger">*</i></label>
+                                <select class="form-control" name="warehouse"
+                                    [(ngModel)]="productWarehouse.warehouse._id">
+                                    <option value="" disabled>Seleccione...</option>
+                                    <option *ngFor="let w of warehouses" [value]="w._id">{{w.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Cantidad <i class="text-danger">*</i></label>
+                                <input type="text" class="form-control" name="quantity"
+                                    [(ngModel)]="productWarehouse.quantity" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-outline-light">Guardar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="fas fa-times"></span>
+                    Cancelar</button>
+                <button type="button" class="btn btn-primary" [disabled]="prodWareForm.invalid"
+                    (click)="createProductWareHouse()"><span class="fas fa-save"></span> Guardar</button>
             </div>
         </div>
     </div>

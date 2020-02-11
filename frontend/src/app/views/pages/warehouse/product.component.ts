@@ -22,8 +22,10 @@ export class ProductComponent implements OnInit {
   warehouse: Warehouse = {};
   warehouses: Warehouse[] = [];
   productWarehouse: ProductWarehouse = { warehouse: { _id: '' } };
+  productWarehouses: ProductWarehouse[] = [];
   categories: Category[] = [];
   update: boolean;
+  endLoandingProducts: boolean;
   constructor(
     private warehouseService: WarehouseService, private productService: ProductService,
     private productWarehouseService: ProductWarehouseService, private categoryService: CategoryService) { }
@@ -41,7 +43,10 @@ export class ProductComponent implements OnInit {
         this.getAllProducts();
       }))
       .subscribe(
-        (data: Product) => this.product = data,
+        (data: Product) => {
+          this.productWarehouse.product = data;
+          this.product = data;
+        },
         (error) => console.error(error));
   }
 
@@ -50,14 +55,45 @@ export class ProductComponent implements OnInit {
       .pipe(finalize(() => {
         this.getAllProducts();
         this.update = false;
+        this.closeModal();
       }))
       .subscribe(
         (data) => console.log(data),
         (error) => console.error(error));
   }
 
+  updateProduct() {
+    this.productService.updateProduct(this.product)
+      .pipe(finalize(() => {
+        this.getAllProducts();
+        this.update = false;
+        this.clearProduct();
+      }))
+      .subscribe(
+        (data: Product) => console.log(data),
+        (error) => console.error(error));
+  }
+
+  createWarehouse() {
+    this.warehouseService.createWarehouse(this.warehouse)
+      .pipe(finalize(() => {
+        this.closeModal();
+      }))
+      .subscribe(
+        (data: Warehouse) => console.log('warehouse', data),
+        (error) => console.error(error));
+  }
+
+  getAllProductWarehouses() {
+    this.productWarehouseService.getAllProductWarehouse()
+      .subscribe(
+        (data: ProductWarehouse[]) => this.productWarehouses = data,
+        (error) => console.error(error));
+  }
+
   getAllProducts() {
     this.productService.getAllProducts()
+      .pipe(finalize(() => this.endLoandingProducts = true))
       .subscribe(
         (data: Product[]) => this.products = data,
         (error) => console.error(error));
@@ -78,7 +114,7 @@ export class ProductComponent implements OnInit {
   }
 
   btnEditProduct(model: Category) {
-    $('cardProduct').CardWidget('expand');
+    $('#cardProduct').CardWidget('expand');
     $('#nameProduct').focus();
     this.product = model;
     if (isNullOrUndefined(this.product.category)) {
@@ -90,14 +126,17 @@ export class ProductComponent implements OnInit {
 
   btnCancel() {
     this.update = false;
-    console.log('xd');
-    
     this.clearProduct();
   }
 
   showModal() {
+    this.getAllProductWarehouses();
     this.createProduct();
     $('#modalWare').modal('show');
+  }
+
+  closeModal() {
+    $('#modalWare').modal('hide');
   }
 
   clearProduct() {

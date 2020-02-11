@@ -16,6 +16,10 @@ export class ProductService {
     return this.http.post(`${this.urlApi}?token=${TOKEN}`, model);
   }
 
+  updateProduct(model: Product) {
+    return this.http.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
+  }
+
   getAllProducts() {
     return this.http.get(`${this.urlApi}?token=${TOKEN}`);
   }
