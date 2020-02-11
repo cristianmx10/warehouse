@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-4">
-        <div class="card card-outline card-primary">
+        <div class="card card-outline card-primary" id="myCard">
             <div class="card-header">
                 <h3 class="card-title">Detalles de categoria</h3>
                 <div class="card-tools">
@@ -14,8 +14,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Nombre <i class="text-danger">*</i></label>
-                                <input type="text" class="form-control" required name="name"
-                                    [(ngModel)]="category.name">
+                                <input type="text" class="form-control" required name="name" [(ngModel)]="category.name"
+                                    id="text">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -29,9 +29,14 @@
                 </form>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-danger"><span class="fas fa-times"></span> Cancelar</button>
+                <button type="button" class="btn btn-info" (click)="cleanCategory()" *ngIf="!update"><span
+                        class="fas fa-broom"></span> Limpiar</button>
+                <button class="btn btn-danger" *ngIf="update" (click)="cleanCategory()"><span
+                        class="fas fa-times"></span> Cancelar</button>
+                <button class="btn btn-primary float-right" [disabled]="formCategory.invalid" *ngIf="update"
+                    (click)="updateCategory()"><span class="fas fa-check"></span> Actualizar</button>
                 <button type="button" class="btn btn-primary float-right" [disabled]="formCategory.invalid"
-                    (click)="createCAtegory()"><span class="fas fa-save"></span> Guardar</button>
+                    (click)="createCAtegory()" *ngIf="!update"><span class="fas fa-save"></span> Guardar</button>
             </div>
         </div>
     </div>
@@ -61,7 +66,7 @@
                                 <span class="badge bg-danger" *ngIf="!cat.active">No activo</span>
                             </td>
                             <td>
-                                <button class="btn btn-outline-success btn-sm"><span
+                                <button class="btn btn-outline-success btn-sm" (click)="btnEditCategory(cat)"><span
                                         class="fas fa-edit"></span></button>
                             </td>
                         </tr>
