@@ -8,6 +8,7 @@ import { EmployeComponent } from './employe/employe.component';
 import { RolComponent } from './employe/rol.component';
 import { UserComponent } from './employe/user.component';
 import { CategoryComponent } from './warehouse/category.component';
+import { EntryComponent } from './warehouse/entry.component';
 
 const pagesRoutes: Routes = [
     {
@@ -18,6 +19,7 @@ const pagesRoutes: Routes = [
             { path: 'product', component: ProductComponent, data: { title: 'Producto' } },
             { path: 'category', component: CategoryComponent, data: { title: 'Categoria' } },
             { path: 'warehouse', component: WarehouseComponent, data: { title: 'Almacenes' } },
+            { path: 'entry', component: EntryComponent, data: { title: 'Entradas' } },
             { path: 'local', component: LocalComponent, data: { title: 'Locales' } },
             { path: 'employe', component: EmployeComponent, data: { title: 'Empleados' } },
             { path: 'rol', component: RolComponent, data: { title: 'Roles' } },

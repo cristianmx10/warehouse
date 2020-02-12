@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
   categories: Category[] = [];
   update: boolean;
   endLoandingProducts: boolean;
+  endLoandingCategories: boolean;
   constructor(
     private warehouseService: WarehouseService, private productService: ProductService,
     private productWarehouseService: ProductWarehouseService, private categoryService: CategoryService) { }
@@ -92,6 +93,7 @@ export class ProductComponent implements OnInit {
   }
 
   getAllProducts() {
+    this.endLoandingProducts = false;
     this.productService.getAllProducts()
       .pipe(finalize(() => this.endLoandingProducts = true))
       .subscribe(
@@ -100,7 +102,9 @@ export class ProductComponent implements OnInit {
   }
 
   getAllCategories() {
+    this.endLoandingCategories = false;
     this.categoryService.getCategory()
+      .pipe(finalize(() => this.endLoandingCategories = true))
       .subscribe(
         (data: Category[]) => this.categories = data,
         (error) => console.log(error));

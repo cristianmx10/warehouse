@@ -13,6 +13,7 @@ import { EmployeComponent } from './employe/employe.component';
 import { RolComponent } from './employe/rol.component';
 import { UserComponent } from './employe/user.component';
 import { CategoryComponent } from './warehouse/category.component';
+import { EntryComponent } from './warehouse/entry.component';
 @NgModule({
     declarations: [
         PagesComponent,
@@ -22,7 +23,8 @@ import { CategoryComponent } from './warehouse/category.component';
         EmployeComponent,
         RolComponent,
         UserComponent,
-        CategoryComponent],
+        CategoryComponent,
+        EntryComponent],
     exports: [
         PagesComponent
     ],

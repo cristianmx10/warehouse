@@ -23,7 +23,7 @@ export class SidebarService {
         },
         {
           title: 'Entradas',
-          url: '/dashboard',
+          url: '/entry',
           icon: 'nav-icon fas fa-clipboard-check'
         },
         {
