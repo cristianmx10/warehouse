@@ -33,10 +33,13 @@ app.post('/:id', mdAuth.verificationToken, (req, res) => {
 
 // LISTAR PRODUCTOS POR ALMACEN
 app.get('/', mdAuth.verificationToken, (req, res) => {
-    ProductWarehouse.find({}, (err, productWarehousesDB) => {
-        if (err) return res.status(400).json(err);
-        res.status(200).json(productWarehousesDB);
-    });
+    ProductWarehouse.find({})
+        .sort({ createdAt: -1 })
+        .populate('product warehouse')
+        .exec((err, productWarehousesDB) => {
+            if (err) return res.status(400).json(err);
+            res.status(200).json(productWarehousesDB);
+        });
 });
 
 module.exports = app;
