@@ -47,4 +47,13 @@ app.get('/', mdAuth.verificationToken, (req, res) => {
         });
 });
 
+// OBTENER PRODUCTO POR SU CODIGO
+app.get('/:code', mdAuth.verificationToken, (req, res) => {
+    const code = req.params.code;
+    Product.findOne({ productCode: code }, (err, productDB) => {
+        if (err) return res.status(400).json(err);
+        res.status(200).json(productDB);
+    });
+});
+
 module.exports = app;

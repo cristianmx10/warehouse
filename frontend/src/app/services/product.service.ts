@@ -23,4 +23,8 @@ export class ProductService {
   getAllProducts() {
     return this.http.get(`${this.urlApi}?token=${TOKEN}`);
   }
+
+  getProductByCode(code: string) {
+    return this.http.get(`${this.urlApi}/${code}?token=${TOKEN}`);
+  }
 }
