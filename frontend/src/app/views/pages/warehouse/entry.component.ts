@@ -6,7 +6,7 @@ import { ProductWarehouseService } from 'src/app/services/product-warehouse.serv
 import { Warehouse } from 'src/app/models/warehouse.model';
 import { WarehouseService } from 'src/app/services/warehouse.service';
 import { ProductWarehouse } from 'src/app/models/productWarehouse.model';
-
+declare const $: any;
 @Component({
   selector: 'app-entry',
   templateUrl: './entry.component.html',
@@ -19,17 +19,24 @@ export class EntryComponent implements OnInit {
   product: Product = {};
   productCode: string;
   resultProduct: boolean;
+  loandingSavaPW: boolean;
+  loandingUpdatePW: boolean;
+  loandingPW: boolean;
+  update: boolean;
   constructor(
     private productService: ProductService, private warehouseService: WarehouseService,
     private productWService: ProductWarehouseService) { }
 
   ngOnInit() {
     this.getAllProductW();
+    this.getWarehouses();
   }
 
   createProductW() {
+    this.loandingSavaPW = true;
     this.productWService.createProductWarehouse(this.productW)
       .pipe(finalize(() => {
+        this.loandingSavaPW = false;
         this.getAllProductW();
         this.productW.quantity = null;
       }))
@@ -38,8 +45,24 @@ export class EntryComponent implements OnInit {
         (error) => console.error(error));
   }
 
+  updateProductW() {
+    this.loandingUpdatePW = true;
+    this.productWService.updateProductWarehouseById(this.productW)
+      .pipe(finalize(() => {
+        this.update = false;
+        this.loandingUpdatePW = false;
+        this.productW = { warehouse: { _id: '' }, product: this.product };
+        this.getAllProductW();
+      }))
+      .subscribe(
+        (data: ProductWarehouse) => this.productW = data,
+        (error) => console.error(error));
+  }
+
   getAllProductW() {
+    this.loandingPW = false;
     this.productWService.getAllProductWarehouse()
+      .pipe(finalize(() => this.loandingPW = true))
       .subscribe(
         (data: ProductWarehouse[]) => this.productWs = data,
         (error) => console.error(error));
@@ -54,13 +77,38 @@ export class EntryComponent implements OnInit {
 
   getProductByCode() {
     this.productService.getProductByCode(this.productCode)
-      .pipe(finalize(() => this.resultProduct = true))
+      .pipe(finalize(() => {
+        this.productCode = '';
+        $('#cardW').ready(() => {
+          $('#quantityText').focus();
+        });
+        this.resultProduct = true;
+      }))
       .subscribe(
         (data: Product) => {
-          this.getWarehouses();
           this.product = data;
           this.productW.product = this.product;
         },
         (error) => console.error(error));
+  }
+
+  btnEditPW(model: ProductWarehouse) {
+    this.update = true;
+    this.product = model.product;
+    this.productW = model;
+    this.resultProduct = true;
+    $('#cardFindProduct').CardWidget('expand');
+    $('#cardW').ready(() => {
+      $('#quantityText').focus();
+    });
+  }
+
+  btnCancel() {
+    this.resultProduct = false;
+    this.update = false;
+    this.productW = { warehouse: { _id: '' } };
+    $('#cardFindProduct').ready(() => {
+      $('#findPbyCode').focus();
+    });
   }
 }

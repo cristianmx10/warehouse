@@ -1,4 +1,4 @@
-<div class="card card-outline card-primary">
+<div class="card card-outline card-primary" id="cardFindProduct">
     <div class="card-header">
         <h3 class="card-title"> Detalles de producto</h3>
         <div class="card-tools">
@@ -10,8 +10,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group input-group">
-                    <input type="text" class="form-control" placeholder="Codigo de producto" name="productCode"
-                        [(ngModel)]="productCode">
+                    <input type="text" id="findPbyCode" class="form-control" placeholder="Codigo de producto"
+                        name="productCode" [(ngModel)]="productCode">
                     <span class="input-group-append">
                         <button type="button" class="btn btn-info btn-flat" (click)="getProductByCode()"><span
                                 class="fas fa-search"></span></button>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="col-md-6" *ngIf="resultProduct">
-                <div class="card card-outline card-success">
+                <div class="card card-outline card-success" id="cardW">
                     <div class="card-header">
                         <h3 class="card-title"> Almacen</h3>
                     </div>
@@ -43,16 +43,21 @@
                             </div>
                             <div class="form-group">
                                 <label> Cantidad <i class="text-danger">*</i></label>
-                                <input type="text" class="form-control" name="quantity" [(ngModel)]="productW.quantity"
-                                    required>
+                                <input type="text" id="quantityText" class="form-control" name="quantity"
+                                    [(ngModel)]="productW.quantity" required>
                             </div>
                         </form>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-danger"><span class="fas fa-times"></span> Cancelar</button>
+                        <button class="btn btn-danger" (click)="btnCancel()"><span class="fas fa-times"></span>
+                            Cancelar</button>
                         <button class="btn btn-primary float-right" [disabled]="formProductWareHose.invalid"
-                            (click)="createProductW()"><span class="fas fa-save"></span> Guardar</button>
+                            (click)="createProductW()" *ngIf="!update"><span class="fas fa-save"></span>
+                            Guardar</button>
+                        <button class="btn btn-primary float-right" [disabled]="formProductWareHose.invalid"
+                            *ngIf="update" (click)="updateProductW()"><span class="fas fa-check"></span> Actualizar</button>
                     </div>
+                    <div class="overlay" *ngIf="loandingSavaPW || loandingUpdatePW"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
                 </div>
             </div>
         </div>
@@ -76,6 +81,7 @@
                     <th>Almacen</th>
                     <th>Cantidad</th>
                     <th>Fecha</th>
+                    <th>Opciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,8 +91,13 @@
                     <td>{{pw.warehouse.name}}</td>
                     <td>{{pw.quantity}}</td>
                     <td>{{pw.createdAt | date: 'short'}}</td>
+                    <td>
+                        <button class="btn btn-outline-success btn-sm" (click)="btnEditPW(pw)"><span
+                                class="fas fa-edit"></span></button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div class="overlay" *ngIf="!loandingPW"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
 </div>

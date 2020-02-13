@@ -19,4 +19,8 @@ export class ProductWarehouseService {
   getAllProductWarehouse() {
     return this.http.get(`${this.urlApi}?token=${TOKEN}`);
   }
+
+  updateProductWarehouseById(model: ProductWarehouse) {
+    return this.http.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
+  }
 }
