@@ -23,4 +23,12 @@ export class ProductWarehouseService {
   updateProductWarehouseById(model: ProductWarehouse) {
     return this.http.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
   }
+
+  /**
+   * Listar productos por almacen
+   * @param idWarehouse id de almacen
+   */
+  getAllProductsByWarehouse(idWarehouse: string) {
+    return this.http.get(`${this.urlApi}/${idWarehouse}?token=${TOKEN}`);
+  }
 }

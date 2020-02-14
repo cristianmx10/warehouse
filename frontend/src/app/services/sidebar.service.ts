@@ -27,9 +27,9 @@ export class SidebarService {
           icon: 'nav-icon fas fa-clipboard-check'
         },
         {
-          title: 'Salida',
-          url: '/dashboard',
-          icon: 'nav-icon fas fa-clipboard-check'
+          title: 'Almacenes',
+          url: '/productwarehouse',
+          icon: 'nav-icon fas fa-warehouse'
         }
       ]
     },

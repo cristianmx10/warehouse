@@ -1,3 +1,4 @@
 {
-    "editor.fontFamily": "Consolas"
+    "editor.fontFamily": "Consolas",
+    "editor.fontSize": 13
 }

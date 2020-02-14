@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title"> Almacenes</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group input-group">
+                    <select name="idWarehouse" [(ngModel)]="idWarehouse" class="form-control" (change)="getProducts()">
+                        <option value="" disabled>Seleccione...</option>
+                        <option *ngFor="let w of warehouses" [value]="w._id">{{w.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" *ngIf="result">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title"> Productos</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pw of productsW; let i = index;">
+                            <td>{{i + 1}}</td>
+                            <td>{{pw.product.name}}</td>
+                            <td>{{pw.quantity}}</td>
+                            <td>{{pw.updatedAt | date: 'short'}}</td>
+                            <td>
+                                <button class="btn btn-outline-success btn-sm"><span
+                                        class="fas fa-edit"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="overlay" *ngIf="!endLoandingProductW"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
+        </div>
+    </div>
+</div>

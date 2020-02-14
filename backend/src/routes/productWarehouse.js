@@ -57,7 +57,7 @@ app.put("/:id", mdAuth.verificationToken, (req, res) => {
   );
 });
 
-// LISTAR PRODUCTOS POR ALMACEN
+// LISTAR ENTRADAS
 app.get("/", mdAuth.verificationToken, (req, res) => {
   ProductWarehouse.find({})
     .sort({ updatedAt: -1 })
@@ -65,6 +65,17 @@ app.get("/", mdAuth.verificationToken, (req, res) => {
     .exec((err, productWarehousesDB) => {
       if (err) return res.status(400).json(err);
       res.status(200).json(productWarehousesDB);
+    });
+});
+
+// LISTAR PRODUCTOS POR ALMACEN
+app.get("/:id", mdAuth.verificationToken, (req, res) => {
+  const id = req.params.id;
+  ProductWarehouse.find({ warehouse: id })
+    .populate("product")
+    .exec((err, pwsDB) => {
+      if (err) return res.status(400).json(err);
+      res.status(200).json(pwsDB);
     });
 });
 

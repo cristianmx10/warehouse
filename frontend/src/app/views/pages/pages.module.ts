@@ -14,6 +14,7 @@ import { RolComponent } from './employe/rol.component';
 import { UserComponent } from './employe/user.component';
 import { CategoryComponent } from './warehouse/category.component';
 import { EntryComponent } from './warehouse/entry.component';
+import { ProductWarehouseComponent } from './warehouse/product-warehouse.component';
 @NgModule({
     declarations: [
         PagesComponent,
@@ -24,7 +25,8 @@ import { EntryComponent } from './warehouse/entry.component';
         RolComponent,
         UserComponent,
         CategoryComponent,
-        EntryComponent],
+        EntryComponent,
+        ProductWarehouseComponent],
     exports: [
         PagesComponent
     ],
