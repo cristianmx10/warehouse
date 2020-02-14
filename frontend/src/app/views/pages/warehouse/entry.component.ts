@@ -24,8 +24,10 @@ export class EntryComponent implements OnInit {
   loandingPW: boolean;
   update: boolean;
   constructor(
-    private productService: ProductService, private warehouseService: WarehouseService,
-    private productWService: ProductWarehouseService) { }
+    private productService: ProductService,
+    private warehouseService: WarehouseService,
+    private productWService: ProductWarehouseService
+  ) { }
 
   ngOnInit() {
     this.getAllProductW();
@@ -34,62 +36,76 @@ export class EntryComponent implements OnInit {
 
   createProductW() {
     this.loandingSavaPW = true;
-    this.productWService.createProductWarehouse(this.productW)
-      .pipe(finalize(() => {
-        this.loandingSavaPW = false;
-        this.getAllProductW();
-        this.productW.quantity = null;
-      }))
+    this.productWService
+      .createProductWarehouse(this.productW)
+      .pipe(
+        finalize(() => {
+          this.loandingSavaPW = false;
+          this.getAllProductW();
+          this.productW.quantity = null;
+        })
+      )
       .subscribe(
         (data: ProductWarehouse) => console.log(data),
-        (error) => console.error(error));
+        error => console.error(error)
+      );
   }
 
   updateProductW() {
     this.loandingUpdatePW = true;
-    this.productWService.updateProductWarehouseById(this.productW)
-      .pipe(finalize(() => {
-        this.update = false;
-        this.loandingUpdatePW = false;
-        this.productW = { warehouse: { _id: '' }, product: this.product };
-        this.getAllProductW();
-      }))
+    this.productWService
+      .updateProductWarehouseById(this.productW)
+      .pipe(
+        finalize(() => {
+          this.update = false;
+          this.loandingUpdatePW = false;
+          this.productW = { warehouse: { _id: '' }, product: this.product };
+          this.getAllProductW();
+        })
+      )
       .subscribe(
-        (data: ProductWarehouse) => this.productW = data,
-        (error) => console.error(error));
+        (data: ProductWarehouse) => (this.productW = data),
+        error => console.error(error)
+      );
   }
 
   getAllProductW() {
     this.loandingPW = false;
-    this.productWService.getAllProductWarehouse()
-      .pipe(finalize(() => this.loandingPW = true))
+    this.productWService
+      .getAllProductWarehouse()
+      .pipe(finalize(() => (this.loandingPW = true)))
       .subscribe(
-        (data: ProductWarehouse[]) => this.productWs = data,
-        (error) => console.error(error));
+        (data: ProductWarehouse[]) => (this.productWs = data),
+        error => console.error(error)
+      );
   }
 
   getWarehouses() {
-    this.warehouseService.getAllWarehouses()
-      .subscribe(
-        (data: Warehouse[]) => this.warehouses = data,
-        (error) => console.error(error));
+    this.warehouseService.getAllWarehouses().subscribe(
+      (data: Warehouse[]) => (this.warehouses = data),
+      error => console.error(error)
+    );
   }
 
   getProductByCode() {
-    this.productService.getProductByCode(this.productCode)
-      .pipe(finalize(() => {
-        this.productCode = '';
-        $('#cardW').ready(() => {
-          $('#quantityText').focus();
-        });
-        this.resultProduct = true;
-      }))
+    this.productService
+      .getProductByCode(this.productCode)
+      .pipe(
+        finalize(() => {
+          this.productCode = '';
+          $('#cardW').ready(() => {
+            $('#quantityText').focus();
+          });
+          this.resultProduct = true;
+        })
+      )
       .subscribe(
         (data: Product) => {
           this.product = data;
           this.productW.product = this.product;
         },
-        (error) => console.error(error));
+        error => console.error(error)
+      );
   }
 
   btnEditPW(model: ProductWarehouse) {
@@ -110,5 +126,6 @@ export class EntryComponent implements OnInit {
     $('#cardFindProduct').ready(() => {
       $('#findPbyCode').focus();
     });
+    this.getAllProductW();
   }
 }

@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <label> Cantidad <i class="text-danger">*</i></label>
-                                <input type="text" id="quantityText" class="form-control" name="quantity"
+                                <input type="number" id="quantityText" class="form-control" name="quantity"
                                     [(ngModel)]="productW.quantity" required>
                             </div>
                         </form>
@@ -90,7 +90,7 @@
                     <td>{{pw.product.name}}</td>
                     <td>{{pw.warehouse.name}}</td>
                     <td>{{pw.quantity}}</td>
-                    <td>{{pw.createdAt | date: 'short'}}</td>
+                    <td>{{pw.updatedAt | date: 'short'}}</td>
                     <td>
                         <button class="btn btn-outline-success btn-sm" (click)="btnEditPW(pw)"><span
                                 class="fas fa-edit"></span></button>
