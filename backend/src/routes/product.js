@@ -1,6 +1,7 @@
 const express = require('express');
 const mdAuth = require('../middlewares/autentication');
 const Product = require('../models/products');
+const ProductW = require('../models/productWarehouses');
 const app = express();
 
 // CREAR PRODUCTO
@@ -37,9 +38,28 @@ app.put('/:id', mdAuth.verificationToken, (req, res) => {
     });
 });
 
+// DESACTIVAR PRODUCTO
+app.delete('/:id', mdAuth.verificationToken, (req, res) => {
+    const id = req.params.id;
+    // SI EL PRODUCTO ESTA RELACIONADO CON UN ALAMACEN NO SE DESACTIVARA
+    ProductW.find({ product: id, active: true }, (err, pwDB) => {
+        if (err) return res.status(400).json(err);
+        if (pwDB.length == 0) {
+            Product.findByIdAndUpdate(id, { active: false }, (err, productUpdate) => {
+                if (err) return res.status(400).json(err);
+                res.status(200).json(productUpdate);
+            });
+        } else {
+            res.status(200).json('NO DESACTIVADO');
+        }
+    })
+});
+
 // LISTAR PRODUCTOS
 app.get('/', mdAuth.verificationToken, (req, res) => {
+    const valor = req.params.valor;
     Product.find({})
+        .sort({ updatedAt: -1 })
         .populate('category')
         .exec((err, productsDB) => {
             if (err) return res.status(400).json(err);

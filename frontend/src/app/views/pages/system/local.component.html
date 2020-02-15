@@ -24,8 +24,12 @@
                     <td>{{loc.description}}</td>
                     <td>{{loc.location}}</td>
                     <td>
-                        <span class="badge bg-success" *ngIf="loc.active">Activo</span>
-                        <span class="badge bg-danger" *ngIf="!loc.active">No activo</span>
+                        <span class="float text-success" *ngIf="loc.active">
+                            <i class="fas fa-check text-sm"></i>
+                        </span>
+                        <span class="float text-danger" *ngIf="!loc.active">
+                            <i class="fas fa-times text-sm"></i>
+                        </span>
                     </td>
                     <td>
                         <button class="btn btn-outline-success btn-sm" (click)="editLocal(loc)"><span

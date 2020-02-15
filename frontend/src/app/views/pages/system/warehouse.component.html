@@ -24,8 +24,12 @@
                     <td>{{ware.description}}</td>
                     <td>{{ware.local.name}}</td>
                     <td>
-                        <span class="badge bg-success" *ngIf="ware.active">Activo</span>
-                        <span class="badge bg-danger" *ngIf="!ware.active">No activo</span>
+                        <span class="float text-success" *ngIf="ware.active">
+                            <i class="fas fa-check text-sm"></i>
+                        </span>
+                        <span class="float text-danger" *ngIf="!ware.active">
+                            <i class="fas fa-times text-sm"></i>
+                        </span>
                     </td>
                     <td>
                         <button class="btn btn-outline-success btn-sm" (click)="editWarehose(ware)"><span

@@ -23,4 +23,8 @@ export class CategoryService {
   updateCAtegory(model: Category) {
     return this.hhtp.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
   }
+
+  deleteCategory(idCategory: string) {
+    return this.hhtp.delete(`${this.urlApi}/${idCategory}?token=${TOKEN}`);
+  }
 }

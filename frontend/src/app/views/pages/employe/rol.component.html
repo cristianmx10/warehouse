@@ -26,8 +26,12 @@
                             <td>{{r.nameRol}}</td>
                             <td>{{r.description}}</td>
                             <td>
-                                <span class="badge bg-success" *ngIf="r.active">Activo</span>
-                                <span class="badge bg-danger" *ngIf="!r.active">No activo</span>
+                                <span class="float text-success" *ngIf="r.active">
+                                    <i class="fas fa-check text-sm"></i>
+                                </span>
+                                <span class="float text-danger" *ngIf="!r.active">
+                                    <i class="fas fa-times text-sm"></i>
+                                </span>
                             </td>
                             <td>
                                 <button class="btn btn-outline-success btn-sm" (click)="btnEditRol(r)"><span

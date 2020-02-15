@@ -63,6 +63,14 @@ export class ProductComponent implements OnInit {
         (error) => console.error(error));
   }
 
+  disableProduct(idProduct: string) {
+    this.productService.deleteProduct(idProduct)
+      .pipe(finalize(() => this.getAllProducts()))
+      .subscribe(
+        (data: Product) => console.log(data),
+        (error) => console.error(error));
+  }
+
   updateProduct() {
     this.productService.updateProduct(this.product)
       .pipe(finalize(() => {

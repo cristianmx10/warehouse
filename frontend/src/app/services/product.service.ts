@@ -27,4 +27,8 @@ export class ProductService {
   getProductByCode(code: string) {
     return this.http.get(`${this.urlApi}/${code}?token=${TOKEN}`);
   }
+
+  deleteProduct(id: string) {
+    return this.http.delete(`${this.urlApi}/${id}?token=${TOKEN}`);
+  }
 }

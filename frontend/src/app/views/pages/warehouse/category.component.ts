@@ -12,6 +12,7 @@ export class CategoryComponent implements OnInit {
   category: Category = {};
   categories: Category[] = [];
   update: boolean;
+  endLoandingCategories: boolean;
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
@@ -40,8 +41,18 @@ export class CategoryComponent implements OnInit {
         (error) => console.error(error));
   }
 
+  deleteCategory(id: string) {
+    this.categoryService.deleteCategory(id)
+      .pipe(finalize(() => this.getAllCategories()))
+      .subscribe(
+        (data: Category) => console.log(data),
+        (error) => console.error(error));
+  }
+
   getAllCategories() {
+    this.endLoandingCategories = false;
     this.categoryService.getCategory()
+      .pipe(finalize(() => this.endLoandingCategories = true))
       .subscribe(
         (data: Category[]) => this.categories = data,
         (error) => console.error(error));

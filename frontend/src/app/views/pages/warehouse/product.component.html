@@ -97,7 +97,7 @@
                             <th>Precio de venta</th>
                             <th>Categoria</th>
                             <th>Estado</th>
-                            <th>Option</th>
+                            <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,12 +109,18 @@
                             <td>{{prod.priceSale | currency: 'S/.'}}</td>
                             <td>{{prod.category?.name || 'No category'}}</td>
                             <td>
-                                <span class="badge bg-success" *ngIf="prod.active">Activo</span>
-                                <span class="badge bg-danger" *ngIf="!prod.active">No activo</span>
+                                <span class="float text-success" *ngIf="prod.active">
+                                    <i class="fas fa-check text-sm"></i>
+                                </span>
+                                <span class="float text-danger" *ngIf="!prod.active">
+                                    <i class="fas fa-times text-sm"></i>
+                                </span>
                             </td>
                             <td>
                                 <button class="btn btn-outline-success btn-sm" (click)="btnEditProduct(prod)"><span
                                         class="fas fa-edit"></span></button>
+                                <button class="btn btn-outline-danger btn-sm ml-1"
+                                    (click)="disableProduct(prod._id)" *ngIf="prod.active"><span class="fas fa-trash"></span></button>
                             </td>
                         </tr>
                     </tbody>
