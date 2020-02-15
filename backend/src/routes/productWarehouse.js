@@ -1,7 +1,7 @@
-const express = require("express");
-const mdAuth = require("../middlewares/autentication");
+const express = require('express');
+const mdAuth = require('../middlewares/autentication');
 
-const ProductWarehouse = require("../models/productWarehouses");
+const ProductWarehouse = require('../models/productWarehouses');
 
 const app = express();
 
@@ -61,7 +61,7 @@ app.put("/:id", mdAuth.verificationToken, (req, res) => {
 app.get("/", mdAuth.verificationToken, (req, res) => {
   ProductWarehouse.find({})
     .sort({ updatedAt: -1 })
-    .populate("product warehouse")
+    .populate('product warehouse')
     .exec((err, productWarehousesDB) => {
       if (err) return res.status(400).json(err);
       res.status(200).json(productWarehousesDB);
@@ -72,7 +72,7 @@ app.get("/", mdAuth.verificationToken, (req, res) => {
 app.get("/:id", mdAuth.verificationToken, (req, res) => {
   const id = req.params.id;
   ProductWarehouse.find({ warehouse: id })
-    .populate("product")
+    .populate('product warehouse')
     .exec((err, pwsDB) => {
       if (err) return res.status(400).json(err);
       res.status(200).json(pwsDB);

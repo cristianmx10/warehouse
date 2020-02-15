@@ -11,11 +11,13 @@ import { finalize } from 'rxjs/operators';
   styles: []
 })
 export class ProductWarehouseComponent implements OnInit {
-  idWarehouse: string;
+  idWarehouse = '';
+  productW: ProductWarehouse = {};
   warehouses: Warehouse[] = [];
-  productsW: ProductWarehouse[] = [];
+  productsWs: ProductWarehouse[] = [];
   endLoandingProductW: boolean;
   result: boolean;
+  edit: boolean;
   constructor(private warehouseService: WarehouseService, private productwService: ProductWarehouseService) { }
 
   ngOnInit() {
@@ -29,6 +31,18 @@ export class ProductWarehouseComponent implements OnInit {
         (error) => console.error(error));
   }
 
+  updateProductW() {
+    this.productwService.updateProductWarehouseById(this.productW)
+      .pipe(finalize(() => {
+        this.edit = false;
+        this.getProducts();
+      }))
+      .subscribe(
+        (data: ProductWarehouse) => console.log(data),
+        (error) => console.error(error));
+  }
+
+  // LISTAR PRODUCTOS POR ALMACEN
   getProducts() {
     this.endLoandingProductW = false;
     this.productwService.getAllProductsByWarehouse(this.idWarehouse)
@@ -37,8 +51,18 @@ export class ProductWarehouseComponent implements OnInit {
         this.result = true;
       }))
       .subscribe(
-        (data: ProductWarehouse[]) => this.productsW = data,
+        (data: ProductWarehouse[]) => this.productsWs = data,
         (error) => console.error(error));
+  }
+
+  btnEdit(model: ProductWarehouse) {
+    this.productW = model;
+    this.edit = true;
+    this.getProducts();
+  }
+
+  btnCancel() {
+    this.edit = false;
   }
 
 }
