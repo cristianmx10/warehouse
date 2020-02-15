@@ -32,4 +32,5 @@ export class WarehouseService {
   getAllWarehouses() {
     return this.http.get(`${this.urlApi}?token=${TOKEN}`);
   }
+
 }

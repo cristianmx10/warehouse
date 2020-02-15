@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col-md-12" *ngIf="!edit">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title"> Almacenes</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group input-group">
+                    <select name="idWarehouse" [(ngModel)]="idWarehouse" class="form-control" (change)="getProducts()">
+                        <option value="" disabled>Seleccione...</option>
+                        <option *ngFor="let w of warehouses" [value]="w._id">{{w.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" *ngIf="result && !edit">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title"> Productos</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pw of productsWs; let i = index;">
+                            <td>{{i + 1}}</td>
+                            <td>{{pw.product.name}}</td>
+                            <td>{{pw.quantity}}</td>
+                            <td>{{pw.updatedAt | date: 'short'}}</td>
+                            <td>
+                                <button class="btn btn-outline-success btn-sm"><span class="fas fa-edit"
+                                        (click)="btnEdit(pw)"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="overlay" *ngIf="!endLoandingProductW"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>
+        </div>
+    </div>
+    <div class="col-md-12" *ngIf="edit">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Editar</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <form #formProductW="ngForm">
+                    <div class="form-group">
+                        <label> Producto <i class="text-danger">*</i></label>
+                        <input type="text" class="form-control" name="product" [(ngModel)]="productW.product.name"
+                            required disabled>
+                    </div>
+                    <div class="form-group">
+                        <label> Almacen <i class="text-danger">*</i></label>
+                        <input type="text" class="form-control" name="warehouse" [(ngModel)]="productW.warehouse.name"
+                            required disabled>
+                    </div>
+                    <div class="form-group">
+                        <label> Cantidad <i class="text-danger">*</i></label>
+                        <input type="number" class="form-control" name="quantity" [(ngModel)]="productW.quantity"
+                            required>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-danger" (click)="btnCancel()"><span class="fas fa-times"></span>
+                    Cancelar</button>
+                <button class="btn btn-primary float-right" (click)="updateProductW()"
+                    [disabled]="formProductW.invalid"><span class="fas fa-check"></span> Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

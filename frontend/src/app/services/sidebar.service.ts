@@ -18,18 +18,18 @@ export class SidebarService {
         },
         {
           title: 'Categorias',
-          url: '/dashboard',
+          url: '/category',
           icon: 'nav-icon fas fa-file-invoice'
         },
         {
           title: 'Entradas',
-          url: '/dashboard',
+          url: '/entry',
           icon: 'nav-icon fas fa-clipboard-check'
         },
         {
-          title: 'Salida',
-          url: '/dashboard',
-          icon: 'nav-icon fas fa-clipboard-check'
+          title: 'Almacenes',
+          url: '/productwarehouse',
+          icon: 'nav-icon fas fa-warehouse'
         }
       ]
     },
