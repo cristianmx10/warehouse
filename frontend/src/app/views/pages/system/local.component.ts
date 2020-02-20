@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { LocalService } from 'src/app/services/local.service';
 import { Local } from 'src/app/models/local.model';
 import { finalize } from 'rxjs/operators';
+import { EmployeService } from 'src/app/services/employe.service';
+import { Employe } from 'src/app/models/employe.model';
+import { EmployeLocalService } from 'src/app/services/employe-local.service';
+import { EmployeLocal } from 'src/app/models/employeLocal.model';
+declare const $: any;
 
 @Component({
   selector: 'app-local',
@@ -11,9 +16,16 @@ import { finalize } from 'rxjs/operators';
 export class LocalComponent implements OnInit {
   local: Local = {};
   locals: Local[] = [];
+  employeLocal: EmployeLocal = {};
+  employeLocals: EmployeLocal[] = [];
+  employe: Employe = { rol: { nameRol: ''}};
+  dniEmploye: string;
   create: boolean;
   update: boolean;
-  constructor(private localService: LocalService) { }
+  viewLocal: boolean;
+  constructor(
+    private localService: LocalService, private employeService: EmployeService,
+    private employeLService: EmployeLocalService) { }
 
   ngOnInit() {
     this.getAllLocals();
@@ -39,6 +51,22 @@ export class LocalComponent implements OnInit {
         (error) => console.error(error));
   }
 
+  getEmployeByIdLocal() {
+    this.employeLService.getById(this.local._id)
+      .subscribe(
+        (data: EmployeLocal[]) => this.employeLocals = data,
+        (error) => console.error(error));
+  }
+
+  createEmployeLocal() {
+    this.employeLocal.employe = this.employe;
+    this.employeLocal.local = this.local;
+    this.employeLService.create(this.employeLocal)
+      .subscribe(
+        (data: EmployeLocal) => console.log(data),
+        (error) => console.error(error));
+  }
+
   // ACTUALIZAR LOCAL
   updateLocalById() {
     this.localService.updateLocalById(this.local)
@@ -51,6 +79,13 @@ export class LocalComponent implements OnInit {
         (error) => console.error(error));
   }
 
+  findEmployeByDni() {
+    this.employeService.getEmployeByDNI(this.dniEmploye)
+      .subscribe(
+        (data: Employe) => this.employe = data,
+        (error) => console.error(error));
+  }
+
   /**
    * Habilitar formulario para actualizar
    * @param model modelo del local
@@ -58,6 +93,13 @@ export class LocalComponent implements OnInit {
   editLocal(model: Local) {
     this.local = model;
     this.update = true;
+    this.viewLocal = false;
+  }
+
+  selectLocal(model: Local) {
+    this.local = model;
+    this.viewLocal = true;
+    this.getEmployeByIdLocal();
   }
 
   // BTN agregar local
@@ -70,5 +112,17 @@ export class LocalComponent implements OnInit {
   cancel() {
     this.create = false;
     this.update = false;
+  }
+
+  activateForm() {
+    this.showModal();
+  }
+
+  closeCard() {
+    this.viewLocal = false;
+  }
+
+  showModal() {
+    $('#modalForm').modal('show');
   }
 }

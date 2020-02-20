@@ -16,8 +16,19 @@ app.post('/', (req, res) => {
     employe.save((err, employeSave) => {
         if (err) return res.status(400).json(err);
         res.status(200).json(employeSave);
-    })
-})
+    });
+});
+
+// OBTENER EMPLEADO POR DNI
+app.get('/:dni', mdAuth.verificationToken, (req, res) => {
+    const dni = req.params.dni;
+    Employe.findOne({ dni: dni })
+        .populate('rol')
+        .exec((err, employeDB) => {
+            if (err) return res.status(400).json(err);
+            res.status(200).json(employeDB);
+        });
+});
 
 // ACTUALIZAR EMPLEADO
 app.put('/:id', mdAuth.verificationToken, (req, res) => {

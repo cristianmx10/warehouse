@@ -41,4 +41,15 @@ app.get('/', mdAuth.verificationToken, (req, res) => {
         });
 });
 
+// lISTAR EMPLEADOS POR LOCAL
+app.get('/:idlocal', mdAuth.verificationToken, (req, res) => {
+    const idlocal = req.params.idlocal;
+    EmployeLocal.find({ local: idlocal })
+        .populate('employe')
+        .exec((err, employeLDB) => {
+            if (err) return res.status(400).json(err);
+            res.status(200).json(employeLDB);
+        });
+});
+
 module.exports = app;

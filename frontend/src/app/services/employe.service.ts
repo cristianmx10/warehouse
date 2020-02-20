@@ -17,6 +17,10 @@ export class EmployeService {
     return this.http.post(`${this.urlApi}?token=${TOKEN}`, model);
   }
 
+  getEmployeByDNI(dni: string) {
+    return this.http.get(`${this.urlApi}/${dni}?token=${TOKEN}`);
+  }
+
   /**
    * Actualizar empleado
    * @param model modelo de empleado
