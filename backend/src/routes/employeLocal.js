@@ -11,10 +11,18 @@ app.post('/', mdAuth.verificationToken, (req, res) => {
         employe: body.employe,
         observation: body.observation
     });
-    employeLocal.save((err, employeLocalSave) => {
+    // No puede haber el mismo empleado dos veces en un local
+    EmployeLocal.find({ local: body.local, employe: body.employe }, (err, emplDB) => {
         if (err) return res.status(400).json(err);
-        res.status(200).json(employeLocalSave);
-    });
+        if (emplDB.length == 0) {
+            employeLocal.save((err, employeLocalSave) => {
+                if (err) return res.status(400).json(err);
+                res.status(200).json(employeLocalSave);
+            });
+        } else {
+            res.status(200).json('error');
+        }
+    })
 });
 
 // ACTUALIZAR EMPLEADO POR LOCAL

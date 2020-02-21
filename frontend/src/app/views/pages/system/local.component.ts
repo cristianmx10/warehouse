@@ -18,7 +18,7 @@ export class LocalComponent implements OnInit {
   locals: Local[] = [];
   employeLocal: EmployeLocal = {};
   employeLocals: EmployeLocal[] = [];
-  employe: Employe = { rol: { nameRol: ''}};
+  employe: Employe = { rol: { nameRol: '' } };
   dniEmploye: string;
   create: boolean;
   update: boolean;
@@ -115,6 +115,7 @@ export class LocalComponent implements OnInit {
   }
 
   activateForm() {
+    this.initModelEmploye();
     this.showModal();
   }
 
@@ -124,5 +125,14 @@ export class LocalComponent implements OnInit {
 
   showModal() {
     $('#modalForm').modal('show');
+  }
+
+  initModelEmploye() {
+    this.dniEmploye = '';
+    this.employe = {
+      _id: '',
+      surname: '',
+      rol: { nameRol: '' }
+    };
   }
 }
