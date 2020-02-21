@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { ProductComponent } from './warehouse/product.component';
-import { LoginGuard, LocalGuard } from 'src/app/services/guards/login.guard';
+import { LoginGuard } from 'src/app/services/guards/login.guard';
 import { WarehouseComponent } from './system/warehouse.component';
 import { LocalComponent } from './system/local.component';
 import { EmployeComponent } from './employe/employe.component';
@@ -10,6 +10,7 @@ import { UserComponent } from './employe/user.component';
 import { CategoryComponent } from './warehouse/category.component';
 import { EntryComponent } from './warehouse/entry.component';
 import { ProductWarehouseComponent } from './warehouse/product-warehouse.component';
+import { LocalGuard } from 'src/app/services/guards/local.guard';
 
 const pagesRoutes: Routes = [
     {

@@ -1,34 +1,22 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
+import { LoginService } from '../login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginGuard implements CanActivate {
   token: string;
-  constructor(private router: Router) {
-    this.token = localStorage.getItem('token');
+  constructor(private router: Router, private loginService: LoginService) {
+    this.token = this.loginService.token;
   }
   canActivate() {
     if (this.token) {
+      console.log('xd');
       return true;
     } else {
       this.router.navigate(['/login']);
       return false;
-    }
-  }
-}
-
-export class LocalGuard implements CanActivate {
-  local: string;
-  constructor(private router: Router) {
-    this.local = localStorage.getItem('local');
-  }
-  canActivate() {
-    if (this.local) {
-      return true;
-    } else {
-      this.router.navigate(['/localselect']);
     }
   }
 }

@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class LoginService {
   urlApi: string;
+  token: string;
+  idEmpleado: string;
   constructor(private http: HttpClient) {
     this.urlApi = URL_SERVICIOS + '/login';
   }
@@ -18,6 +20,8 @@ export class LoginService {
     return this.http.post(`${this.urlApi}/singin`, model)
       .pipe(map((data: any) => {
         console.log(data);
+        this.token = data.token;
+        this.idEmpleado = data.user;
         localStorage.setItem('token', data.token);
         localStorage.setItem('id', data.user);
         window.location.href = '#/localselect';

@@ -7,7 +7,7 @@
             <div class="col-md-4" *ngFor="let local of employeLocals">
                 <div class="callout callout-info">
                     <p> {{local.local.name}}</p>
-                    <button class="btn btn-outline-success"> Seleccionar</button>
+                    <button class="btn btn-outline-success" (click)="selectLocal(local.local._id)"> Seleccionar</button>
                 </div>
             </div>
         </div>

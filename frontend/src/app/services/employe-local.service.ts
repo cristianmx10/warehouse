@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS, TOKEN } from '../config/config';
 import { EmployeLocal } from '../models/employeLocal.model';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeLocalService {
   urlApi: string;
-  constructor(private http: HttpClient) {
+  token: string;
+  constructor(private http: HttpClient, private loginService: LoginService) {
     this.urlApi = `${URL_SERVICIOS}/employelocal`;
+    this.token = loginService.token;
   }
 
   create(model: EmployeLocal) {
@@ -21,6 +24,6 @@ export class EmployeLocalService {
   }
 
   getLocalsByEmploye(idEmploye: string) {
-    return this.http.get(`${this.urlApi}/locals/${idEmploye}?token=${TOKEN}`);
+    return this.http.get(`${this.urlApi}/locals/${idEmploye}?token=${this.token}`);
   }
 }
