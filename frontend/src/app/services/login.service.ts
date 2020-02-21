@@ -16,11 +16,12 @@ export class LoginService {
   // INICIA SESION
   singIn(model: Login) {
     return this.http.post(`${this.urlApi}/singin`, model)
-      .pipe(map((token: string) => {
-        localStorage.setItem('token', token);
-        window.location.href = '#/product';
-        location.reload();
-        return token;
+      .pipe(map((data: any) => {
+        console.log(data);
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('id', data.user);
+        window.location.href = '#/localselect';
+        return data.token;
       }));
   }
 

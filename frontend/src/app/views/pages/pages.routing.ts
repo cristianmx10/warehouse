@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
 import { ProductComponent } from './warehouse/product.component';
-import { LoginGuard } from 'src/app/services/guards/login.guard';
+import { LoginGuard, LocalGuard } from 'src/app/services/guards/login.guard';
 import { WarehouseComponent } from './system/warehouse.component';
 import { LocalComponent } from './system/local.component';
 import { EmployeComponent } from './employe/employe.component';
@@ -15,7 +15,7 @@ const pagesRoutes: Routes = [
     {
         path: '',
         component: PagesComponent,
-        canActivate: [LoginGuard],
+        canActivate: [LoginGuard, LocalGuard],
         children: [
             { path: 'product', component: ProductComponent, data: { title: 'Producto' } },
             { path: 'category', component: CategoryComponent, data: { title: 'Categoria' } },

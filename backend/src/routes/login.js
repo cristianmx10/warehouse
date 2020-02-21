@@ -36,7 +36,7 @@ app.post('/singin', (req, res) => {
             if (err) return res.status(400).json(err);
             if (!employeDB) return res.status(404).json('Not found');
             token = jwt.sign({ user: employeDB }, process.env.SEED, { expiresIn: 86400 });
-            res.status(200).json(token);
+            res.status(200).json({token: token, user:employeDB._id});
         });
     });
 });

@@ -19,4 +19,8 @@ export class EmployeLocalService {
   getById(idLocal: string) {
     return this.http.get(`${this.urlApi}/${idLocal}?token=${TOKEN}`);
   }
+
+  getLocalsByEmploye(idEmploye: string) {
+    return this.http.get(`${this.urlApi}/locals/${idEmploye}?token=${TOKEN}`);
+  }
 }

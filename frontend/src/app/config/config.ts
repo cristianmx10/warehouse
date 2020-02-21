@@ -4,3 +4,6 @@ export const URL_SERVICIOS = 'http://localhost:8080';
 
 // Token
 export const TOKEN = localStorage.getItem('token');
+
+// ID employe
+export const ID = localStorage.getItem('id');

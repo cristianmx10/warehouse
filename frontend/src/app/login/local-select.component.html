@@ -1,0 +1,15 @@
+<div class="card card-outline card-success my-5 mx-5">
+    <div class="card-header">
+        <h3 class="card-title"> Locales asignados</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4" *ngFor="let local of employeLocals">
+                <div class="callout callout-info">
+                    <p> {{local.local.name}}</p>
+                    <button class="btn btn-outline-success"> Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
