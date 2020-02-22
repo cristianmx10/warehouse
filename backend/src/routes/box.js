@@ -8,7 +8,6 @@ app.post('/', mdAuth.verificationToken, (req, res) => {
     const body = req.body;
     const box = new Box({
         local: body.local,
-        entryPrice: body.entryPrice,
         startingPrice: body.startingPrice,
         observation: body.observation
     });

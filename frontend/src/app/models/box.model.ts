@@ -3,7 +3,6 @@ import { Local } from './local.model';
 export class Box {
     constructor(
         public local?: Local, // local
-        public entryPrice?: number,
         public startingPrice?: number,
         public active?: boolean,
         public obsrvation?: string,

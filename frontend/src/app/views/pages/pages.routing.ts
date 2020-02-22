@@ -11,6 +11,7 @@ import { CategoryComponent } from './warehouse/category.component';
 import { EntryComponent } from './warehouse/entry.component';
 import { ProductWarehouseComponent } from './warehouse/product-warehouse.component';
 import { LocalGuard } from 'src/app/services/guards/local.guard';
+import { MiCajaComponent } from './box/mi-caja.component';
 
 const pagesRoutes: Routes = [
     {
@@ -24,6 +25,7 @@ const pagesRoutes: Routes = [
             { path: 'productwarehouse', component: ProductWarehouseComponent, data: { title: 'Producto por almacen' } },
             { path: 'entry', component: EntryComponent, data: { title: 'Entradas' } },
             { path: 'local', component: LocalComponent, data: { title: 'Locales' } },
+            { path: 'micaja', component: MiCajaComponent, data: { title: 'Caja' } },
             { path: 'employe', component: EmployeComponent, data: { title: 'Empleados' } },
             { path: 'rol', component: RolComponent, data: { title: 'Roles' } },
             { path: 'user', component: UserComponent, data: { title: 'Usuarios' } },

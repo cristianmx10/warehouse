@@ -61,14 +61,14 @@ export class SidebarService {
       icon: 'nav-icon fas fa-cash-register',
       subMenu: [
         {
+          title: 'Mi caja',
+          url: '/micaja',
+          icon: 'nav-icon fas fa-cash-register'
+        },
+        {
           title: 'Ventas',
           url: '/sale',
           icon: 'nav-icon fas fa-cart-plus'
-        },
-        {
-          title: 'Cajas',
-          url: '/micaja',
-          icon: 'nav-icon fas fa-cash-register'
         },
         {
           title: 'Reporte de ventas',
