@@ -9,6 +9,8 @@ import { map } from 'rxjs/operators';
 })
 export class LoginService {
   urlApi: string;
+  token: string;
+  idEmploye: string;
   constructor(private http: HttpClient) {
     this.urlApi = URL_SERVICIOS + '/login';
   }
@@ -16,11 +18,11 @@ export class LoginService {
   // INICIA SESION
   singIn(model: Login) {
     return this.http.post(`${this.urlApi}/singin`, model)
-      .pipe(map((token: string) => {
-        localStorage.setItem('token', token);
-        window.location.href = '#/product';
-        location.reload();
-        return token;
+      .pipe(map((data: any) => {
+        localStorage.setItem('token', data.token);
+        this.token = data.token;
+        this.idEmploye = data.userid;
+        return true;
       }));
   }
 

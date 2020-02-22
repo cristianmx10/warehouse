@@ -39,9 +39,10 @@ app.put('/:id', mdAuth.verificationToken, (req, res) => {
     });
 });
 
-// LISTAR
-app.get('/', mdAuth.verificationToken, (req, res) => {
-    EmployeLocal.find({})
+// LISTAR POR ID EMPLEADO
+app.get('/byemploye/:idEmploye', mdAuth.verificationToken, (req, res) => {
+    const idEmploye = req.params.idEmploye;
+    EmployeLocal.find({ employe: idEmploye })
         .populate('local employe')
         .exec((err, employeLocalsDB) => {
             if (err) return res.status(400).json(err);

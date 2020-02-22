@@ -7,11 +7,13 @@ import { SharedModule } from './views/shared/shared.module';
 import { LoginComponent } from './login/login.component';
 import { APP_ROUTES } from './app.routing';
 import { PagesModule } from './views/pages/pages.module';
+import { LocalSelectComponent } from './login/local-select.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    LocalSelectComponent
   ],
   imports: [
     BrowserModule,

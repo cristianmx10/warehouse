@@ -1,4 +1,4 @@
-<div class="login-page">
+<div class="login-page" *ngIf="!showLocals">
     <div class="login-box">
         <div class="login-logo">
             <a href="../../index2.html"><b>Cordova</b>Store</a>
@@ -10,8 +10,8 @@
 
                 <form>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Nombre de usuario"
-                        name="username" [(ngModel)]="login.username">
+                        <input type="text" class="form-control" placeholder="Nombre de usuario" name="username"
+                            [(ngModel)]="login.username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -19,8 +19,8 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Contraseña"
-                        name="password" [(ngModel)]="login.password">
+                        <input type="password" class="form-control" placeholder="Contraseña" name="password"
+                            [(ngModel)]="login.password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -48,3 +48,5 @@
         </div>
     </div>
 </div>
+
+<app-local-select *ngIf="showLocals"></app-local-select>

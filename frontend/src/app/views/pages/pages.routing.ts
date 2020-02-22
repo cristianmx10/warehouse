@@ -10,12 +10,13 @@ import { UserComponent } from './employe/user.component';
 import { CategoryComponent } from './warehouse/category.component';
 import { EntryComponent } from './warehouse/entry.component';
 import { ProductWarehouseComponent } from './warehouse/product-warehouse.component';
+import { LocalGuard } from 'src/app/services/guards/local.guard';
 
 const pagesRoutes: Routes = [
     {
         path: '',
         component: PagesComponent,
-        canActivate: [LoginGuard],
+        canActivate: [LoginGuard, LocalGuard],
         children: [
             { path: 'product', component: ProductComponent, data: { title: 'Producto' } },
             { path: 'category', component: CategoryComponent, data: { title: 'Categoria' } },

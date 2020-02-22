@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   login: Login = {};
+  showLocals: boolean;
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
@@ -18,6 +19,6 @@ export class LoginComponent implements OnInit {
   // INICIAR SESION
   singIn() {
     this.loginService.singIn(this.login)
-      .subscribe((data: string) => console.log(data));
+      .subscribe((data: boolean) => this.showLocals = data);
   }
 }
