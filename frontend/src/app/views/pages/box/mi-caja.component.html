@@ -3,7 +3,8 @@
     <h3 class="card-title"> Mi caja</h3>
   </div>
   <div class="card-body">
-    <div [ngClass]="{'callout': true, 'callout-success': lastOpenBox.active, 'callout-danger': !lastOpenBox.active}" *ngIf="hasOpenBox">
+    <div [ngClass]="{'callout': true, 'callout-success': lastOpenBox.active, 'callout-danger': !lastOpenBox.active}"
+      *ngIf="hasOpenBox">
       <h5> {{lastOpenBox.local.name}} </h5>
 
       <dl class="row">
@@ -35,11 +36,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
+        <tr *ngFor="let b of boxes; let i = index;">
+          <td>{{i + 1}}</td>
+          <td>{{b.startingPrice | currency: 'S/.'}}</td>
+          <td>{{b.endPrice | currency: 'S/.'}}</td>
+          <td>{{b.obsrvation}}</td>
         </tr>
       </tbody>
     </table>
@@ -59,11 +60,13 @@
         <form>
           <div class="form-group">
             <label> Precio de entrada</label>
-            <input type="number" name="startingPrice" class="form-control" [(ngModel)]="box.startingPrice" [disabled]="lastOpenBox.active">
+            <input type="number" name="startingPrice" class="form-control" [(ngModel)]="box.startingPrice"
+              [disabled]="lastOpenBox.active">
           </div>
           <div class="form-group">
             <label> Precio de salida</label>
-            <input type="number" name="endPrice" class="form-control" [(ngModel)]="box.endPrice" [disabled]="!lastOpenBox.active">
+            <input type="number" name="endPrice" class="form-control" [(ngModel)]="box.endPrice"
+              [disabled]="!lastOpenBox.active">
           </div>
           <div class="form-group">
             <label> Observacion</label>
@@ -73,7 +76,8 @@
       </div>
       <div class="modal-footer justify-content-between">
         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
-        <button type="button" class="btn btn-primary" (click)="openOrClose()"><i class="fas fa-check"></i> Aceptar</button>
+        <button type="button" class="btn btn-primary" (click)="openOrClose()"><i class="fas fa-check"></i>
+          Aceptar</button>
       </div>
     </div>
   </div>

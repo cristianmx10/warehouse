@@ -35,18 +35,21 @@ app.put('/:id', mdAuth.verificationToken, (req, res) => {
 });
 
 // LISTAR CAJAS
-app.get('/', mdAuth.verificationToken, (req, res) => {
-    Box.find({}, (err, boxesDB) => {
-        if (err) return res.status(400).json(err);
-        res.status(200).json(boxesDB);
-    });
+app.get('/all/:idemploye', mdAuth.verificationToken, (req, res) => {
+    const idemploye = req.params.idemploye;
+    Box.find({ employe: idemploye })
+        .sort({ updatedAt: -1 })
+        .exec((err, boxesDB) => {
+            if (err) return res.status(400).json(err);
+            res.status(200).json(boxesDB);
+        });
 });
 
 // OBTENER ULTIMA CAJA ABIERTA
 app.get('/:idemploye', mdAuth.verificationToken, (req, res) => {
     const idemploye = req.params.idemploye;
     Box.findOne({ employe: idemploye })
-        .sort({updatedAt: -1})
+        .sort({ updatedAt: -1 })
         .populate('local')
         .exec((err, lastBox) => {
             if (err) return res.status(400).json(err);

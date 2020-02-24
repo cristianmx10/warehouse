@@ -14,6 +14,7 @@ declare const $: any;
 export class MiCajaComponent implements OnInit {
   lastOpenBox: Box = { active: false, _id: '' };
   box: Box = {};
+  boxes: Box[] = [];
   employe: Employe;
   local: Local;
   hasOpenBox: boolean;
@@ -24,6 +25,7 @@ export class MiCajaComponent implements OnInit {
 
   ngOnInit() {
     this.getLastBoxOpen();
+    this.getAllBoxes();
   }
 
   openOrClose() {
@@ -37,7 +39,11 @@ export class MiCajaComponent implements OnInit {
 
   openBox() {
     this.boxService.openBox(this.box)
-      .pipe(finalize(() => this.getLastBoxOpen()))
+      .pipe(finalize(() => {
+        this.getLastBoxOpen();
+        this.closeModal();
+        this.getAllBoxes();
+      }))
       .subscribe(
         (data: Box) => console.log(data),
         (error) => console.error(error));
@@ -45,7 +51,11 @@ export class MiCajaComponent implements OnInit {
 
   closeBox() {
     this.boxService.closeLastBox(this.lastOpenBox)
-      .pipe(finalize(() => this.getLastBoxOpen()))
+      .pipe(finalize(() => {
+        this.getLastBoxOpen();
+        this.closeModal();
+        this.getAllBoxes();
+      }))
       .subscribe(
         (data: Box) => console.log(data),
         (error) => console.error(error));
@@ -63,13 +73,28 @@ export class MiCajaComponent implements OnInit {
         (error) => console.error(error));
   }
 
+  getAllBoxes() {
+    this.boxService.getAllBoxes(this.employe._id)
+      .subscribe(
+        (data: Box[]) => this.boxes = data,
+        (error) => console.error(error));
+  }
+
   showModalBox() {
     if (!this.lastOpenBox.active) {
-      this.box = new Box();
+      this.box.startingPrice = 0;
+      this.box.endPrice = 0;
+      this.box.obsrvation = '';
+      this.box.employe = this.employe;
+      this.box.local = this.local;
     } else {
       this.box = this.lastOpenBox;
     }
     $('#modaBox').modal('show');
+  }
+
+  closeModal() {
+    $('#modaBox').modal('hide');
   }
 
 }

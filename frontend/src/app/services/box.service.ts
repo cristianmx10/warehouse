@@ -23,4 +23,8 @@ export class BoxService {
   closeLastBox(model: Box) {
     return this.http.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
   }
+
+  getAllBoxes(idEmploye: string) {
+    return this.http.get(`${this.urlApi}/all/${idEmploye}?token=${TOKEN}`);
+  }
 }
