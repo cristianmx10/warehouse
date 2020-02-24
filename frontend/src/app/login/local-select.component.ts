@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeLocalService } from '../services/employe-local.service';
 import { EmployeLocal } from '../models/employeLocal.model';
 import { Router } from '@angular/router';
+import { Local } from 'protractor/built/driverProviders';
 
 @Component({
   selector: 'app-local-select',
@@ -23,8 +24,8 @@ export class LocalSelectComponent implements OnInit {
         (error) => console.error(error));
   }
 
-  selectLocal(idLocal: string) {
-    localStorage.setItem('idl', idLocal);
+  selectLocal(model: Local) {
+    localStorage.setItem('local', JSON.stringify(model));
     window.location.href = '#/product';
     location.reload();
   }

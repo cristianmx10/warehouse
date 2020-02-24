@@ -15,4 +15,12 @@ export class BoxService {
   openBox(model: Box) {
     return this.http.post(`${this.urlApi}?token=${TOKEN}`, model);
   }
+
+  getLastBoxOpenByIdEmploye(idEmploye: string) {
+    return this.http.get(`${this.urlApi}/${idEmploye}?token=${TOKEN}`);
+  }
+
+  closeLastBox(model: Box) {
+    return this.http.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
+  }
 }

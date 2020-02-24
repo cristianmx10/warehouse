@@ -5,12 +5,12 @@ import { CanActivate, Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LocalGuard implements CanActivate {
-  idLocal: string;
+  local: string;
   constructor(private router: Router) {
-    this.idLocal = localStorage.getItem('idl');
+    this.local = localStorage.getItem('local');
   }
   canActivate() {
-    if (this.idLocal) {
+    if (this.local) {
       return true;
     } else {
       this.router.navigate(['/login']);

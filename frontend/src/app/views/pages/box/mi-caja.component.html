@@ -1,48 +1,80 @@
-<div class="card card-outline card-primary"> 
-    <div class="card-header">
-        <h3 class="card-title"> Mi caja</h3>
-    </div>
-    <div class="card-body">
-        <div class="callout callout-danger">
-            <h5>I am a danger callout!</h5>
+<div class="card card-outline card-primary">
+  <div class="card-header">
+    <h3 class="card-title"> Mi caja</h3>
+  </div>
+  <div class="card-body">
+    <div [ngClass]="{'callout': true, 'callout-success': lastOpenBox.active, 'callout-danger': !lastOpenBox.active}" *ngIf="hasOpenBox">
+      <h5> {{lastOpenBox.local.name}} </h5>
 
-            <p>There is a problem that we need to fix. A wonderful serenity has taken possession of my entire
-              soul,
-              like these sweet mornings of spring which I enjoy with my whole heart.</p>
-          </div>
-        <div class="text-center">
-            <button class="btn btn-outline-primary" (click)="showModalBox()"> Abrir caja</button>
-        </div>
+      <dl class="row">
+        <dt class="col-sm-4">Precio entrada</dt>
+        <dd class="col-sm-8">{{lastOpenBox.startingPrice | currency: 'S/.'}}</dd>
+        <dt class="col-sm-4">Precio salida</dt>
+        <dd class="col-sm-8">{{lastOpenBox.endPrice | currency: 'S/.'}}</dd>
+      </dl>
     </div>
+    <div class="text-center">
+      <button class="btn btn-outline-primary" (click)="showModalBox()" *ngIf="!lastOpenBox.active"> Abrir caja</button>
+      <button class="btn btn-outline-danger" (click)="showModalBox()" *ngIf="lastOpenBox.active"> Cerrar caja</button>
+    </div>
+  </div>
+</div>
+
+<div class="card card-outline card-primary">
+  <div class="card-header">
+    <h3 class="card-title"> Historial</h3>
+  </div>
+  <div class="card-body p-0 table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 10px;">#</th>
+          <th>Precio de entrada</th>
+          <th>Precio de salida</th>
+          <th>Observation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="modal fade" id="modaBox" aria-modal="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Detalles de caja</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-                <label> Precio de enrada</label>
-                <input type="number" class="form-control">
-            </div>
-            <div class="form-group">
-                <label> Observacion</label>
-                <input type="text" class="form-control">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Detalles de caja</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
       </div>
-      <!-- /.modal-content -->
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label> Precio de entrada</label>
+            <input type="number" name="startingPrice" class="form-control" [(ngModel)]="box.startingPrice" [disabled]="lastOpenBox.active">
+          </div>
+          <div class="form-group">
+            <label> Precio de salida</label>
+            <input type="number" name="endPrice" class="form-control" [(ngModel)]="box.endPrice" [disabled]="!lastOpenBox.active">
+          </div>
+          <div class="form-group">
+            <label> Observacion</label>
+            <input type="text" name="observation" class="form-control" [(ngModel)]="box.obsrvation">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="openOrClose()"><i class="fas fa-check"></i> Aceptar</button>
+      </div>
     </div>
-    <!-- /.modal-dialog -->
   </div>
+</div>

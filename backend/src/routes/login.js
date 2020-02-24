@@ -32,11 +32,11 @@ app.post('/singin', (req, res) => {
         if (!bcrypt.compareSync(body.password, loginDB.password)) {
             return res.status(400).json('Credenciales incorrectas');
         }
-        Employe.findById(loginDB.employe, (err, employeDB) => {
+        Employe.findById(loginDB.employe, { password: 0 }, (err, employeDB) => {
             if (err) return res.status(400).json(err);
             if (!employeDB) return res.status(404).json('Not found');
             token = jwt.sign({ user: employeDB }, process.env.SEED, { expiresIn: 86400 });
-            res.status(200).json({token: token, userid: employeDB._id});
+            res.status(200).json({ token: token, user: employeDB });
         });
     });
 });
@@ -47,7 +47,7 @@ app.get('/', mdAuth.verificationToken, (req, res) => {
         .populate('employe')
         .populate({
             path: 'employe',
-            populate: { path: 'rol'}
+            populate: { path: 'rol' }
         })
         .exec((err, loginsDB) => {
             if (err) return res.status(400).json(err);
