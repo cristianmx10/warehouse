@@ -62,7 +62,7 @@ export class MiCajaComponent implements OnInit {
   }
 
   getLastBoxOpen() {
-    this.boxService.getLastBoxOpenByIdEmploye(this.employe._id)
+    this.boxService.getLastBoxOpenByIdEmploye(this.employe._id, this.local._id)
       .subscribe(
         (data: Box) => {
           if (data) {
@@ -74,7 +74,7 @@ export class MiCajaComponent implements OnInit {
   }
 
   getAllBoxes() {
-    this.boxService.getAllBoxes(this.employe._id)
+    this.boxService.getAllBoxes(this.employe._id, this.local._id)
       .subscribe(
         (data: Box[]) => this.boxes = data,
         (error) => console.error(error));

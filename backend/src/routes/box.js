@@ -35,9 +35,10 @@ app.put('/:id', mdAuth.verificationToken, (req, res) => {
 });
 
 // LISTAR CAJAS
-app.get('/all/:idemploye', mdAuth.verificationToken, (req, res) => {
+app.get('/all/:idemploye/:idlocal', mdAuth.verificationToken, (req, res) => {
     const idemploye = req.params.idemploye;
-    Box.find({ employe: idemploye })
+    const idlocal = req.params.idlocal;
+    Box.find({ employe: idemploye, local: idlocal })
         .sort({ updatedAt: -1 })
         .exec((err, boxesDB) => {
             if (err) return res.status(400).json(err);
@@ -46,9 +47,10 @@ app.get('/all/:idemploye', mdAuth.verificationToken, (req, res) => {
 });
 
 // OBTENER ULTIMA CAJA ABIERTA
-app.get('/:idemploye', mdAuth.verificationToken, (req, res) => {
+app.get('/:idemploye/:idlocal', mdAuth.verificationToken, (req, res) => {
     const idemploye = req.params.idemploye;
-    Box.findOne({ employe: idemploye })
+    const idlocal = req.params.idlocal;
+    Box.findOne({ employe: idemploye, local: idlocal })
         .sort({ updatedAt: -1 })
         .populate('local')
         .exec((err, lastBox) => {

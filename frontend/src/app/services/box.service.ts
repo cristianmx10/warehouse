@@ -16,15 +16,15 @@ export class BoxService {
     return this.http.post(`${this.urlApi}?token=${TOKEN}`, model);
   }
 
-  getLastBoxOpenByIdEmploye(idEmploye: string) {
-    return this.http.get(`${this.urlApi}/${idEmploye}?token=${TOKEN}`);
-  }
 
   closeLastBox(model: Box) {
     return this.http.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
   }
 
-  getAllBoxes(idEmploye: string) {
-    return this.http.get(`${this.urlApi}/all/${idEmploye}?token=${TOKEN}`);
+  getLastBoxOpenByIdEmploye(idEmploye: string, idLocal: string) {
+    return this.http.get(`${this.urlApi}/${idEmploye}/${idLocal}?token=${TOKEN}`);
+  }
+  getAllBoxes(idEmploye: string, idLocal: string) {
+    return this.http.get(`${this.urlApi}/all/${idEmploye}/${idLocal}?token=${TOKEN}`);
   }
 }
