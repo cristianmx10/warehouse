@@ -3,7 +3,6 @@ export class Sale {
         public saleCode?: string,
         public salePrice?: number,
         public totalPaid?: number,
-        public turned?: number,
         public efectivo?: boolean,
         public active?: boolean,
         public createdAt?: Date,

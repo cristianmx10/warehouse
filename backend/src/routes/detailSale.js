@@ -4,21 +4,22 @@ const DeatailSale = require('../models/detailSales');
 const app = express();
 
 // CREAR DETALLE DE VENTA
-app.post('/', mdAuth.verificationToken, (req, res) => {
+app.post('/:sale', mdAuth.verificationToken, (req, res) => {
+    const sale = req.params.sale;
     const body = req.body; // ARRAY DE LOS PRODUCTOS A VENDER
     body.forEach(x => {
-        const detailSale = new detailSale({
-            product: x.product,
-            sale: x.sale,
+        const detailSale = new DeatailSale({
+            producto: x.producto,
+            sale: sale,
             quantity: x.quantity,
             discount: x.discount,
             totalPrice: x.totalPrice
         });
         detailSale.save((err, detailSaleSave) => {
             if (err) return res.status(400).json(err);
-            res.status(200).json(detailSaleSave);
         });
     });
+    res.status(200).json('creado');
 });
 
 // ACTUALIZAR DETALLE VENTA
@@ -26,7 +27,7 @@ app.put('/:id', mdAuth.verificationToken, (req, res) => {
     const id = req.params.id;
     const body = req.body;
     DeatailSale.findByIdAndUpdate(id, {
-        product: body.product,
+        producto: body.producto,
         sale: body.sale,
         quantity: body.quantity,
         discount: body.discount,

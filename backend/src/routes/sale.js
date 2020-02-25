@@ -11,7 +11,6 @@ app.post('/', mdAuth.verificationToken, (req, res) => {
         saleCode: codeSale,
         salePrice: body.salePrice,
         totalPaid: body.totalPaid,
-        turned: body.turned,
         efectivo: body.efectivo
     });
     sale.save((err, saleSave) => {

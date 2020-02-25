@@ -12,7 +12,7 @@ export class DetailSaleService {
     this.urlApi = `${URL_SERVICIOS}/detailsale`;
   }
 
-  createDetailSale(model: DetailSale[]) {
-    return this.http.post(`${this.urlApi}?token=${TOKEN}`, model);
+  createDetailSale(model: DetailSale[], idSale: string) {
+    return this.http.post(`${this.urlApi}/${idSale}?token=${TOKEN}`, model);
   }
 }

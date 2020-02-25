@@ -6,6 +6,7 @@ import { finalize } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { SaleService } from 'src/app/services/sale.service';
 import { Sale } from 'src/app/models/sale.model';
+import { DetailSaleService } from 'src/app/services/detail-sale.service';
 
 @Component({
   selector: 'app-box',
@@ -14,10 +15,12 @@ import { Sale } from 'src/app/models/sale.model';
 })
 export class BoxComponent implements OnInit {
   code: string;
-  sale: Sale = {};
+  sale: Sale = { salePrice: 0, totalPaid: 0 };
   details: DetailSale = {};
   detailSales: DetailSale[] = [];
-  constructor(private productService: ProductService, private saleService: SaleService) { }
+  constructor(
+    private productService: ProductService, private saleService: SaleService,
+    private detailSaleService: DetailSaleService) { }
 
   ngOnInit() {
   }
@@ -33,31 +36,48 @@ export class BoxComponent implements OnInit {
           } else {
             const detailSale = new DetailSale();
             detailSale.producto = data;
-            detailSale.quantity = 0;
+            detailSale.quantity = 1;
             detailSale.totalPrice = 0;
             detailSale.discount = 0;
             this.details = detailSale;
             this.detailSales.push(this.details);
+            this.calculateTotalPrice(data);
           }
         },
         (error) => console.error(error));
   }
 
   createSale() {
-    this.sale.salePrice = 45;
-    this.sale.totalPaid = 50;
-    this.sale.turned = 5;
     this.saleService.createSale(this.sale)
-    .subscribe(
-      (data: Sale) => console.log(data),
-      (error) => console.error(error));
+      .subscribe(
+        (data: Sale) => {
+          this.createDetailSale(data._id);
+        },
+        (error) => console.error(error));
   }
 
-  calculateTotalPrice(model: DetailSale, index: number) {
-    if (model.discount > 5) {
-      model.discount = 5;
+  createDetailSale(idSale: string) {
+    this.detailSaleService.createDetailSale(this.detailSales, idSale)
+      .subscribe(
+        (data: string) => console.log(data),
+        (error) => console.error(error));
+  }
+
+  calculateTotalPrice(model: Product) {
+    const index = this.detailSales.findIndex(x => x.producto.productCode === model.productCode);
+    const modelD = this.detailSales[index];
+    if (modelD.discount > 5) {
+      modelD.discount = 5;
     }
-    this.detailSales[index].totalPrice = (model.producto.priceSale * model.quantity) - model.discount;
+    this.detailSales[index].totalPrice = (model.priceSale * modelD.quantity) - modelD.discount;
+    this.calculatePriceTotalSale();
+  }
+
+  calculatePriceTotalSale() {
+    this.sale.salePrice = 0;
+    this.detailSales.forEach(x => {
+      this.sale.salePrice += x.totalPrice;
+    });
   }
 
   verify(model: Product) {
@@ -69,7 +89,7 @@ export class BoxComponent implements OnInit {
     const index = this.detailSales.findIndex(x => x.producto.productCode === model.productCode);
     const modelD = this.detailSales.find(x => x.producto.productCode === model.productCode);
     this.detailSales[index].quantity += 1;
-    this.calculateTotalPrice(modelD, index);
+    this.calculateTotalPrice(model);
   }
 
 }

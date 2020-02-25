@@ -38,12 +38,12 @@
                                         <th>{{ds.producto.priceSale | currency: 'S/.'}}</th>
                                         <th>
                                             <input type="number" name="quantity" class="form-control" min="0"
-                                                [(ngModel)]="ds.quantity" (change)="calculateTotalPrice(ds, i)">
+                                                [(ngModel)]="ds.quantity" (change)="calculateTotalPrice(ds.producto)">
                                         </th>
                                         <th>
 
                                             <input type="number" name="discount" class="form-control" min="0" max="5"
-                                                [(ngModel)]="ds.discount" (change)="calculateTotalPrice(ds, i)">
+                                                [(ngModel)]="ds.discount" (change)="calculateTotalPrice(ds.producto)">
                                         </th>
                                         <th>
                                             <div class="input-group mb-3">
@@ -70,23 +70,29 @@
                         <div class="callout callout-info">
                             <dl class="row">
                                 <dt class="col-sm-4">Total</dt>
-                                <dd class="col-sm-8">s/000</dd>
-                                <dt class="col-sm-4">Euismod</dt>
-                                <dd class="col-sm-8">Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
-                                <dd class="col-sm-8 offset-sm-4">Donec id elit non mi porta gravida at eget metus.</dd>
-                                <dt class="col-sm-4">Malesuada porta</dt>
-                                <dd class="col-sm-8">Etiam porta sem malesuada magna mollis euismod.</dd>
-                                <dt class="col-sm-4">Felis euismod semper eget lacinia</dt>
-                                <dd class="col-sm-8">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
-                                  sit amet risus.
+                                <dd class="col-sm-8">{{sale.salePrice | currency: 'S/.'}}</dd>
+                                <dt class="col-sm-4">Monto</dt>
+                                <dd class="col-sm-8">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">S/.</span>
+                                        </div>
+                                        <input type="number" name="totalPaid" class="form-control"
+                                            [(ngModel)]="sale.totalPaid">
+                                    </div>
                                 </dd>
-                              </dl>
+                                <dt class="col-sm-4" *ngIf="sale.totalPaid">Vuelto</dt>
+                                <dd class="col-sm-8" *ngIf="sale.totalPaid">
+                                    {{sale.totalPaid - sale.salePrice | currency: 'S/.'}}</dd>
+                            </dl>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="card-footer">
+        <button class="btn btn-outline-danger"><i class="fas fas fa-times"></i> Cancelar</button>
+        <button class="btn btn-outline-primary float-right" (click)="createSale()"><i class="fas fas fas fa-check"></i> Vender</button>
+    </div>
 </div>
-
-<button  (click)="createSale()">sdfsd</button>
