@@ -6,8 +6,6 @@ const app = express();
 // CREAR VENTA
 app.post('/', mdAuth.verificationToken, (req, res) => {
     const body = req.body;
-    console.log(body);
-    
     const codeSale = createdate();
     const sale = new Sale({
         saleCode: codeSale,
