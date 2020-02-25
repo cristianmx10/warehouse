@@ -6,7 +6,7 @@ const ProductWarehouse = require('../models/productWarehouses');
 const app = express();
 
 // CREAR PRODUCTOS POR ALMACEN
-app.post("/", mdAuth.verificationToken, (req, res) => {
+app.post('/', mdAuth.verificationToken, (req, res) => {
   const body = req.body;
   const productWarehouse = new ProductWarehouse({
     warehouse: body.warehouse,
@@ -40,7 +40,7 @@ app.post("/", mdAuth.verificationToken, (req, res) => {
 });
 
 // ACTUALIZAR PRODUCTOS POR ALMACEN
-app.put("/:id", mdAuth.verificationToken, (req, res) => {
+app.put('/:id', mdAuth.verificationToken, (req, res) => {
   const id = req.params.id;
   const body = req.body;
   ProductWarehouse.findByIdAndUpdate(
@@ -58,7 +58,7 @@ app.put("/:id", mdAuth.verificationToken, (req, res) => {
 });
 
 // LISTAR ENTRADAS
-app.get("/", mdAuth.verificationToken, (req, res) => {
+app.get('/', mdAuth.verificationToken, (req, res) => {
   ProductWarehouse.find({})
     .sort({ updatedAt: -1 })
     .populate('product warehouse')
@@ -69,7 +69,7 @@ app.get("/", mdAuth.verificationToken, (req, res) => {
 });
 
 // LISTAR PRODUCTOS POR ALMACEN
-app.get("/:id", mdAuth.verificationToken, (req, res) => {
+app.get('/:id', mdAuth.verificationToken, (req, res) => {
   const id = req.params.id;
   ProductWarehouse.find({ warehouse: id })
     .populate('product warehouse')

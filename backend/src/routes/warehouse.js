@@ -41,4 +41,12 @@ app.get('/', mdAuth.verificationToken, (req, res) => {
         });
 });
 
+app.get('/:idlocal', mdAuth.verificationToken, (req, res) => {
+    const idlocal = req.params.idlocal;
+    Warehouse.findOne({local: idlocal}, (err, wDB) => {
+        if (err) return res.status(400).json(err);
+        res.status(200).json(wDB);
+    });
+}) 
+
 module.exports = app;

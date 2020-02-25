@@ -8,8 +8,10 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductService {
   urlApi: string;
+  idWarehouse: string;
   constructor(private http: HttpClient) {
     this.urlApi = URL_SERVICIOS + '/product';
+    this.idWarehouse = localStorage.getItem('w');
   }
 
   createProduct(model: Product) {
@@ -25,7 +27,11 @@ export class ProductService {
   }
 
   getProductByCode(code: string) {
-    return this.http.get(`${this.urlApi}/${code}?token=${TOKEN}`);
+    return this.http.get(`${this.urlApi}/${code}/${this.idWarehouse}?token=${TOKEN}`);
+  }
+
+  getProductAllByCode(code: string) {
+    return this.http.get(`${this.urlApi}/product/all/${code}?token=${TOKEN}`);
   }
 
   deleteProduct(id: string) {

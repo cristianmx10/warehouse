@@ -1,12 +1,17 @@
 const express = require('express');
 const mdAuth = require('../middlewares/autentication');
+
 const DeatailSale = require('../models/detailSales');
+const ProducW = require('../models/productWarehouses');
+
 const app = express();
 
 // CREAR DETALLE DE VENTA
-app.post('/:sale', mdAuth.verificationToken, (req, res) => {
+app.post('/:sale/:idw', mdAuth.verificationToken, (req, res) => {
     const sale = req.params.sale;
+    const idw = req.params.idw;
     const body = req.body; // ARRAY DE LOS PRODUCTOS A VENDER
+
     body.forEach(x => {
         const detailSale = new DeatailSale({
             producto: x.producto,
@@ -17,6 +22,12 @@ app.post('/:sale', mdAuth.verificationToken, (req, res) => {
         });
         detailSale.save((err, detailSaleSave) => {
             if (err) return res.status(400).json(err);
+            ProducW.findOne({ product: x.producto, warehouse: idw }, (err, pw) => {
+                if (err) return res.status(400).json(err);
+                ProducW.findOneAndUpdate({ product: x.producto, warehouse: idw }, { quantity: pw.quantity - x.quantity }, (err, pwDb) => {
+                    if (err) return res.status(400).json(err);
+                });
+            });
         });
     });
     res.status(200).json('creado');
@@ -34,6 +45,7 @@ app.put('/:id', mdAuth.verificationToken, (req, res) => {
         totalPrice: body.totalPrice
     }, (err, detailSaleUpdate) => {
         if (err) return res.status(400).json(err);
+
         res.status(200).json(detailSaleUpdate);
     });
 });

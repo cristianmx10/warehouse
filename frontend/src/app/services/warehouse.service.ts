@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS, TOKEN } from '../config/config';
 import { Warehouse } from '../models/warehouse.model';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WarehouseService {
   urlApi: string;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private loginService: LoginService) {
     this.urlApi = URL_SERVICIOS + '/warehouse';
   }
 
@@ -31,6 +32,11 @@ export class WarehouseService {
   // LISTAR ALMACENES
   getAllWarehouses() {
     return this.http.get(`${this.urlApi}?token=${TOKEN}`);
+  }
+
+  getWarehouseByIdLocal(idLocal: string) {
+    return this.http.get(`${this.urlApi}/${idLocal}?token=${this.loginService.token}`);
+
   }
 
 }

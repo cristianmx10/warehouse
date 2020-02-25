@@ -13,6 +13,6 @@ export class DetailSaleService {
   }
 
   createDetailSale(model: DetailSale[], idSale: string) {
-    return this.http.post(`${this.urlApi}/${idSale}?token=${TOKEN}`, model);
+    return this.http.post(`${this.urlApi}/${idSale}/${localStorage.getItem('w')}?token=${TOKEN}`, model);
   }
 }

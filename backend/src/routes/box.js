@@ -10,7 +10,7 @@ app.post('/', mdAuth.verificationToken, (req, res) => {
         local: body.local,
         employe: body.employe,
         startingPrice: body.startingPrice,
-        endPrice: body.endPrice,
+        endPrice: body.startingPrice,
         observation: body.observation
     });
     box.save((err, boxSave) => {
@@ -23,10 +23,22 @@ app.post('/', mdAuth.verificationToken, (req, res) => {
 app.put('/:id', mdAuth.verificationToken, (req, res) => {
     const id = req.params.id;
     const body = req.body;
+    Box.findById(id, (err, box) => {
+        if (err) return res.status(400).json(err);
+        Box.findByIdAndUpdate(id, {
+            endPrice: box.endPrice + body.endPrice
+        }, (err, boxUpdate) => {
+            if (err) return res.status(400).json(err);
+            res.status(200).json(boxUpdate);
+        });
+    });
+});
+
+// CERRAR CAJA
+app.put('/close/:id', mdAuth.verificationToken, (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
     Box.findByIdAndUpdate(id, {
-        startingPrice: body.startingPrice,
-        endPrice: body.endPrice,
-        observation: body.observation,
         active: body.active
     }, (err, boxUpdate) => {
         if (err) return res.status(400).json(err);

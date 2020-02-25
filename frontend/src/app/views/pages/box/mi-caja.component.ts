@@ -45,7 +45,7 @@ export class MiCajaComponent implements OnInit {
         this.getAllBoxes();
       }))
       .subscribe(
-        (data: Box) => console.log(data),
+        (data: Box) => localStorage.setItem('mc', data._id),
         (error) => console.error(error));
   }
 

@@ -7,6 +7,11 @@ import { isNullOrUndefined } from 'util';
 import { SaleService } from 'src/app/services/sale.service';
 import { Sale } from 'src/app/models/sale.model';
 import { DetailSaleService } from 'src/app/services/detail-sale.service';
+import { ProductWarehouseService } from 'src/app/services/product-warehouse.service';
+import { ProductWarehouse } from 'src/app/models/productWarehouse.model';
+import { Local } from 'src/app/models/local.model';
+import { BoxService } from 'src/app/services/box.service';
+import { Box } from 'src/app/models/box.model';
 
 @Component({
   selector: 'app-box',
@@ -18,30 +23,30 @@ export class BoxComponent implements OnInit {
   sale: Sale = { salePrice: 0, totalPaid: 0 };
   details: DetailSale = {};
   detailSales: DetailSale[] = [];
+  pw: ProductWarehouse = {};
+  local: Local = {};
+  box: Box = {};
+  canSale: boolean;
   constructor(
     private productService: ProductService, private saleService: SaleService,
-    private detailSaleService: DetailSaleService) { }
+    private detailSaleService: DetailSaleService, private pwService: ProductWarehouseService,
+    private boxService: BoxService) { }
 
   ngOnInit() {
+    this.local = JSON.parse(localStorage.getItem('local'));
   }
 
   getProductByCode() {
     this.productService.getProductByCode(this.code)
       .subscribe(
-        (data: Product) => {
-          const exist = this.verify(data);
+        (data: ProductWarehouse) => {
+          if (data.quantity === 0) { return; }
           if (isNullOrUndefined(data)) { return; }
+          const exist = this.verify(data.product);
           if (!isNullOrUndefined(exist)) {
-            this.addProductRepeated(data);
+            this.addProductRepeated(data.product);
           } else {
-            const detailSale = new DetailSale();
-            detailSale.producto = data;
-            detailSale.quantity = 1;
-            detailSale.totalPrice = 0;
-            detailSale.discount = 0;
-            this.details = detailSale;
-            this.detailSales.push(this.details);
-            this.calculateTotalPrice(data);
+            this.addProduct(data.product);
           }
         },
         (error) => console.error(error));
@@ -49,6 +54,10 @@ export class BoxComponent implements OnInit {
 
   createSale() {
     this.saleService.createSale(this.sale)
+      .pipe(finalize(() => {
+        this.addBoxPriceEnd();
+        this.cleanSale();
+      }))
       .subscribe(
         (data: Sale) => {
           this.createDetailSale(data._id);
@@ -60,6 +69,14 @@ export class BoxComponent implements OnInit {
     this.detailSaleService.createDetailSale(this.detailSales, idSale)
       .subscribe(
         (data: string) => console.log(data),
+        (error) => console.error(error));
+  }
+
+  addBoxPriceEnd() {
+    this.box.endPrice = this.sale.salePrice;
+    this.boxService.addPriceBox(this.box)
+      .subscribe(
+        (data: Box) => console.log(data),
         (error) => console.error(error));
   }
 
@@ -92,4 +109,19 @@ export class BoxComponent implements OnInit {
     this.calculateTotalPrice(model);
   }
 
+  addProduct(data: Product) {
+    const detailSale = new DetailSale();
+    detailSale.producto = data;
+    detailSale.quantity = 1;
+    detailSale.totalPrice = 0;
+    detailSale.discount = 0;
+    this.details = detailSale;
+    this.detailSales.push(this.details);
+    this.calculateTotalPrice(data);
+  }
+
+  cleanSale() {
+    this.detailSales = [];
+    this.sale = { totalPaid: 0, salePrice: 0 };
+  }
 }

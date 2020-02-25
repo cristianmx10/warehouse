@@ -18,7 +18,11 @@ export class BoxService {
 
 
   closeLastBox(model: Box) {
-    return this.http.put(`${this.urlApi}/${model._id}?token=${TOKEN}`, model);
+    return this.http.put(`${this.urlApi}/close/${model._id}?token=${TOKEN}`, model);
+  }
+
+  addPriceBox(model: Box) {
+    return this.http.put(`${this.urlApi}/${localStorage.getItem('mc')}?token=${TOKEN}`, model);
   }
 
   getLastBoxOpenByIdEmploye(idEmploye: string, idLocal: string) {

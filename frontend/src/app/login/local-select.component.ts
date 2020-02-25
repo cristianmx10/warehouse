@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { EmployeLocalService } from '../services/employe-local.service';
 import { EmployeLocal } from '../models/employeLocal.model';
 import { Router } from '@angular/router';
-import { Local } from 'protractor/built/driverProviders';
+import { WarehouseService } from '../services/warehouse.service';
+import { Warehouse } from '../models/warehouse.model';
+import { Local } from '../models/local.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-local-select',
@@ -11,7 +14,9 @@ import { Local } from 'protractor/built/driverProviders';
 })
 export class LocalSelectComponent implements OnInit {
   employeLocals: EmployeLocal[] = [];
-  constructor(private employeLocalService: EmployeLocalService, private router: Router) { }
+  constructor(
+    private employeLocalService: EmployeLocalService, private router: Router,
+    private warehouseService: WarehouseService) { }
 
   ngOnInit() {
     this.getLocalsByEmploye();
@@ -26,8 +31,18 @@ export class LocalSelectComponent implements OnInit {
 
   selectLocal(model: Local) {
     localStorage.setItem('local', JSON.stringify(model));
-    window.location.href = '#/product';
-    location.reload();
+    this.getWarehouse(model._id);
+  }
+
+  getWarehouse(idLocal: string) {
+    this.warehouseService.getWarehouseByIdLocal(idLocal)
+      .pipe(finalize(() => {
+        window.location.href = '#/product';
+        location.reload();
+      }))
+      .subscribe(
+        (data: Warehouse) => localStorage.setItem('w', data._id),
+        (error) => console.error(error));
   }
 
 }

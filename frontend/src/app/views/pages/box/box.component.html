@@ -78,11 +78,12 @@
                                             <span class="input-group-text">S/.</span>
                                         </div>
                                         <input type="number" name="totalPaid" class="form-control"
-                                            [(ngModel)]="sale.totalPaid">
+                                            [(ngModel)]="sale.totalPaid" [disabled]="sale.salePrice === 0">
                                     </div>
                                 </dd>
-                                <dt class="col-sm-4" *ngIf="sale.totalPaid">Vuelto</dt>
-                                <dd class="col-sm-8" *ngIf="sale.totalPaid">
+                                <dt class="col-sm-4" *ngIf="sale.totalPaid >= sale.salePrice && sale.totalPaid !== 0">
+                                    Vuelto</dt>
+                                <dd class="col-sm-8" *ngIf="sale.totalPaid >= sale.salePrice && sale.totalPaid !== 0">
                                     {{sale.totalPaid - sale.salePrice | currency: 'S/.'}}</dd>
                             </dl>
                         </div>
@@ -92,7 +93,9 @@
         </div>
     </div>
     <div class="card-footer">
-        <button class="btn btn-outline-danger"><i class="fas fas fa-times"></i> Cancelar</button>
-        <button class="btn btn-outline-primary float-right" (click)="createSale()"><i class="fas fas fas fa-check"></i> Vender</button>
+        <button class="btn btn-outline-danger" (click)="cleanSale()"><i class="fas fas fa-times"></i> Cancelar</button>
+        <button class="btn btn-outline-primary float-right" (click)="createSale()"
+            *ngIf="sale.totalPaid >= sale.salePrice && sale.totalPaid !== 0"><i class="fas fas fas fa-check"></i>
+            Vender</button>
     </div>
 </div>

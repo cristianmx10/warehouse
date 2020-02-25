@@ -89,7 +89,7 @@ export class EntryComponent implements OnInit {
 
   getProductByCode() {
     this.productService
-      .getProductByCode(this.productCode)
+      .getProductAllByCode(this.productCode)
       .pipe(
         finalize(() => {
           this.productCode = '';
