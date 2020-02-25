@@ -66,8 +66,8 @@ export class SidebarService {
           icon: 'nav-icon fas fa-cash-register'
         },
         {
-          title: 'Ventas',
-          url: '/sale',
+          title: 'Caja',
+          url: '/box',
           icon: 'nav-icon fas fa-cart-plus'
         },
         {

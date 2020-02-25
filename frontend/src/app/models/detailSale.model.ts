@@ -1,7 +1,7 @@
 import { Product } from './product.model';
 import { Sale } from './sale.model';
 
-export class DeteilSale {
+export class DetailSale {
     constructor(
         public producto?: Product,
         public sale?: Sale,

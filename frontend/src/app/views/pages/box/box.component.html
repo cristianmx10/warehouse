@@ -1,0 +1,92 @@
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title"> Caja</h3>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card card-outline card-info">
+                    <div class="card-header">
+                        <h3 class="card-title"> Productos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group input-group-sm">
+                            <input type="text" name="code" class="form-control" [(ngModel)]="code">
+                            <span class="input-group-append">
+                                <button type="button" class="btn btn-info btn-flat" (click)="getProductByCode()"><i
+                                        class="fas fas fa-search"></i></button>
+                            </span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Codigo</th>
+                                        <th>Producto</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Cantidad</th>
+                                        <th>Descuento</th>
+                                        <th>Sub total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ds of detailSales; let i=index;">
+                                        <th>{{i + 1}}</th>
+                                        <th>{{ds.producto.productCode}}</th>
+                                        <th>{{ds.producto.name}}</th>
+                                        <th>{{ds.producto.priceSale | currency: 'S/.'}}</th>
+                                        <th>
+                                            <input type="number" name="quantity" class="form-control" min="0"
+                                                [(ngModel)]="ds.quantity" (change)="calculateTotalPrice(ds, i)">
+                                        </th>
+                                        <th>
+
+                                            <input type="number" name="discount" class="form-control" min="0" max="5"
+                                                [(ngModel)]="ds.discount" (change)="calculateTotalPrice(ds, i)">
+                                        </th>
+                                        <th>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">S/.</span>
+                                                </div>
+                                                <input type="number" name="totalPrice" class="form-control"
+                                                    [(ngModel)]="ds.totalPrice" disabled>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-outline card-success">
+                    <div class="card-header">
+                        <h3 class="card-title"> Detalles de venta</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="callout callout-info">
+                            <dl class="row">
+                                <dt class="col-sm-4">Total</dt>
+                                <dd class="col-sm-8">s/000</dd>
+                                <dt class="col-sm-4">Euismod</dt>
+                                <dd class="col-sm-8">Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+                                <dd class="col-sm-8 offset-sm-4">Donec id elit non mi porta gravida at eget metus.</dd>
+                                <dt class="col-sm-4">Malesuada porta</dt>
+                                <dd class="col-sm-8">Etiam porta sem malesuada magna mollis euismod.</dd>
+                                <dt class="col-sm-4">Felis euismod semper eget lacinia</dt>
+                                <dd class="col-sm-8">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo
+                                  sit amet risus.
+                                </dd>
+                              </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button  (click)="createSale()">sdfsd</button>

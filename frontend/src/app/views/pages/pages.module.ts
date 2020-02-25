@@ -16,6 +16,7 @@ import { CategoryComponent } from './warehouse/category.component';
 import { EntryComponent } from './warehouse/entry.component';
 import { ProductWarehouseComponent } from './warehouse/product-warehouse.component';
 import { MiCajaComponent } from './box/mi-caja.component';
+import { BoxComponent } from './box/box.component';
 @NgModule({
     declarations: [
         PagesComponent,
@@ -28,7 +29,8 @@ import { MiCajaComponent } from './box/mi-caja.component';
         CategoryComponent,
         EntryComponent,
         ProductWarehouseComponent,
-        MiCajaComponent],
+        MiCajaComponent,
+        BoxComponent],
     exports: [
         PagesComponent
     ],

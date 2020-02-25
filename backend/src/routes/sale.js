@@ -6,9 +6,14 @@ const app = express();
 // CREAR VENTA
 app.post('/', mdAuth.verificationToken, (req, res) => {
     const body = req.body;
+    console.log(body);
+    
+    const codeSale = createdate();
     const sale = new Sale({
+        saleCode: codeSale,
         salePrice: body.salePrice,
-        totalPrice: body.totalPrice,
+        totalPaid: body.totalPaid,
+        turned: body.turned,
         efectivo: body.efectivo
     });
     sale.save((err, saleSave) => {
@@ -38,5 +43,18 @@ app.get('/', mdAuth.verificationToken, (req, res) => {
         res.status(200).json(salesDB);
     });
 });
+
+function createdate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    const milliseconds = date.getMilliseconds();
+    const code = `${year}${month}${day}${hour}${minutes}${seconds}-${milliseconds}`;
+    return code;
+}
 
 module.exports = app;
